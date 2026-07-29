@@ -53,9 +53,8 @@ html {
 
 /* App Container Layout (Full screen, no header) */
 .app-container {
-    max-width: 1700px;
-    margin: 0 auto;
-    padding: clamp(10px, 1.5vh, 20px);
+    width: 100%;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -65,7 +64,7 @@ html {
 /* Dashboard Grid (Equal Heights) */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 380px;
+    grid-template-columns: 1fr 400px;
     gap: clamp(10px, 1.5vh, 20px);
     flex-grow: 1;
     min-height: 0; /* Allow grid to size itself within the flex parent */
