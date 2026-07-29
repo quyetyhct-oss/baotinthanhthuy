@@ -1,0 +1,388 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-app: #050608; /* Deeper pure dark background for high OLED/TV contrast */
+    --bg-card: rgba(17, 20, 28, 0.75);
+    --bg-card-hover: rgba(26, 31, 44, 0.9);
+    
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-color-glow: rgba(56, 189, 248, 0.3);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --neon-blue: #38bdf8;
+    --neon-green: #10b981;
+    --neon-red: #f43f5e;
+    --neon-yellow: #f59e0b;
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --glow-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow: hidden; /* Prevent body scrollbars for a clean native app look on TVs */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+/* Hide scrollbars for Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbars for IE, Edge, and Firefox */
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* App Container Layout (Full screen, no header) */
+.app-container {
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: clamp(10px, 1.5vh, 20px);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 500px;
+}
+
+/* Dashboard Grid (Equal Heights) */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: clamp(10px, 1.5vh, 20px);
+    flex-grow: 1;
+    min-height: 0; /* Allow grid to size itself within the flex parent */
+}
+
+/* Chart Section */
+.chart-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(10px, 1.5vh, 16px) 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.card-header h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(14px, 1.2vw, 17px);
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-header h2 i {
+    color: var(--neon-blue);
+}
+
+.chart-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.badge {
+    font-size: clamp(9px, 0.8vw, 11px);
+    font-weight: 600;
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+}
+
+.chart-wrapper {
+    flex-grow: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+.tradingview-widget-container {
+    height: 100%;
+    width: 100%;
+}
+
+#tradingview_xagusd {
+    height: 100%;
+}
+
+/* Sidebar Prices (Perfect Height Balance) */
+.sidebar-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: clamp(8px, 1vh, 14px);
+}
+
+/* Symmetrical Card Layout */
+.price-card {
+    flex: 1; /* Stretch all 5 cards equally */
+    min-height: 0; /* Important for flex items to shrink/grow correctly */
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.price-card:hover {
+    transform: translateY(-1px);
+    border-color: var(--border-color-glow);
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.06);
+}
+
+/* Highlight style for Phu Quy card */
+.price-card.highlight-card {
+    padding: clamp(8px, 1.2vh, 14px) 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.price-card.highlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+}
+
+.card-header-sm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.symbol-tag {
+    font-size: clamp(8px, 0.7vw, 10px);
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.symbol-tag.vn-tag {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--neon-yellow);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.symbol-name {
+    font-family: var(--font-heading);
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.source-badge {
+    font-size: clamp(9px, 0.8vw, 11px);
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.phuquy-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+    padding: clamp(6px, 1vh, 12px) 14px;
+    border-radius: 10px;
+    margin: 4px 0;
+}
+
+.price-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.price-col.buy {
+    border-right: 1px solid var(--border-color);
+    padding-right: 6px;
+}
+
+.price-label {
+    font-size: clamp(8px, 0.7vw, 10px);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.price-label small {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.price-value {
+    font-family: var(--font-heading);
+    font-size: clamp(18px, 1.5vw, 24px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+#phuquy-buy {
+    color: #ff5252;
+}
+
+#phuquy-sell {
+    color: #69f0ae;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(8px, 0.7vw, 10px);
+    color: var(--text-muted);
+}
+
+.footer-note i {
+    margin-right: 3px;
+}
+
+/* TV Widget Card Sizing */
+.tv-widget-card {
+    padding: 0;
+}
+
+.tv-widget-card .tradingview-widget-container {
+    height: 100%;
+    width: 100%;
+}
+
+/* Online/Offline Status indicators */
+.status-online {
+    color: var(--neon-green);
+}
+
+.status-offline {
+    color: var(--neon-red);
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--neon-green);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px var(--neon-green);
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* ==================== TV SCREENS & LARGE MONITOR OPTIMIZATION ==================== */
+@media (min-width: 1900px) {
+    .app-container {
+        max-width: 1800px;
+    }
+    .price-value {
+        font-size: 26px; /* Larger fonts for legibility from a distance */
+    }
+    .symbol-name {
+        font-size: 16px;
+    }
+    .card-header h2 {
+        font-size: 19px;
+    }
+}
+
+/* ==================== ANDROID & MOBILE SCREEN OPTIMIZATION ==================== */
+@media (max-width: 1200px) {
+    body {
+        overflow-y: auto; /* Enable scrollbars when columns collapse */
+    }
+    
+    .app-container {
+        height: auto;
+        min-height: auto;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .chart-section {
+        height: 50vh;
+        min-height: 380px;
+    }
+    
+    .sidebar-section {
+        height: auto;
+        gap: 12px;
+    }
+    
+    .price-card {
+        height: 120px;
+        flex: none; /* Disable auto-stretch, use fixed heights */
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+    
+    .chart-section {
+        height: 40vh;
+        min-height: 300px;
+    }
+}

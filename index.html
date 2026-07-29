@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Giá Bạc Trực Tuyến - Live Silver Dashboard</title>
+    <meta name="description" content="Cập nhật giá bạc Phú Quý trực tuyến, biểu đồ giá bạc thế giới XAGUSD, giá vàng XAUUSD, dầu thô WTI và chỉ số DXY theo thời gian thực.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+
+
+        <!-- Main Content Layout -->
+        <main class="dashboard-grid">
+            <!-- Left Side: Interactive Chart -->
+            <section class="chart-section" aria-labelledby="chart-title">
+                <div class="card-header">
+                    <h2 id="chart-title"><i class="fa-solid fa-chart-area"></i> Biểu đồ Bạc Thế giới (XAG/USD)</h2>
+                    <div class="chart-actions">
+                        <span class="badge">OANDA</span>
+                        <span class="badge">Realtime</span>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_xagusd"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                            new TradingView.widget({
+                                "width": "100%",
+                                "height": "100%",
+                                "symbol": "OANDA:XAGUSD",
+                                "interval": "5",
+                                "timezone": "Asia/Ho_Chi_Minh",
+                                "theme": "dark",
+                                "style": "1",
+                                "locale": "vi",
+                                "enable_publishing": false,
+                                "hide_side_toolbar": false,
+                                "allow_symbol_change": true,
+                                "details": true,
+                                "calendar": true,
+                                "container_id": "tradingview_xagusd"
+                            });
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </section>
+
+            <!-- Right Side: Sidebar Price Widgets (5 Symmetrical Cards) -->
+            <aside class="sidebar-section" aria-label="Bảng giá thị trường">
+                <!-- Card 1: Vietnam Silver Phu Quy Card -->
+                <div class="price-card highlight-card" id="card-phuquy">
+                    <div class="card-header-sm">
+                        <div class="card-title-group">
+                            <span class="symbol-tag vn-tag">BẠC VN</span>
+                            <h3 class="symbol-name">BẠC PHÚ QUÝ 999</h3>
+                        </div>
+                        <span class="source-badge" id="phuquy-status">giabac.vn</span>
+                    </div>
+                    <div class="phuquy-prices">
+                        <div class="price-col buy">
+                            <span class="price-label">MUA VÀO <small>(tr/kg)</small></span>
+                            <span class="price-value text-red" id="phuquy-buy">57.250</span>
+                        </div>
+                        <div class="price-col sell">
+                            <span class="price-label">BÁN RA <small>(tr/kg)</small></span>
+                            <span class="price-value text-green" id="phuquy-sell">59.010</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật tại VN: <span id="phuquy-time">--:--:--</span></span>
+                    </div>
+                </div>
+
+                <!-- Card 2: XAGUSD TradingView Widget -->
+                <div class="price-card tv-widget-card" id="card-xagusd">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "OANDA:XAGUSD",
+                            "width": "100%",
+                            "height": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi"
+                        }
+                        </script>
+                    </div>
+                </div>
+
+                <!-- Card 3: XAUUSD TradingView Widget -->
+                <div class="price-card tv-widget-card" id="card-xauusd">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "OANDA:XAUUSD",
+                            "width": "100%",
+                            "height": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi"
+                        }
+                        </script>
+                    </div>
+                </div>
+
+                <!-- Card 4: USOIL TradingView Widget -->
+                <div class="price-card tv-widget-card" id="card-usoil">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "TVC:UKOIL",
+                            "width": "100%",
+                            "height": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi"
+                        }
+                        </script>
+                    </div>
+                </div>
+
+                <!-- Card 5: DXY TradingView Widget -->
+                <div class="price-card tv-widget-card" id="card-dxy">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "CAPITALCOM:DXY",
+                            "width": "100%",
+                            "height": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script src="script.js"></script>
+</body>
+</html>
