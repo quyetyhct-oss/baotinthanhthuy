@@ -18,6 +18,11 @@ market_data = {
         "buy": 57.250,
         "sell": 59.010,
         "source": "initial_cache"
+    },
+    "xag_usd": {
+        "buy": 57.160,
+        "sell": 57.260,
+        "source": "initial_cache"
     }
 }
 
@@ -64,18 +69,37 @@ def parse_phu_quy_silver():
 
     return None
 
+def fetch_xag_usd():
+    try:
+        data_str = fetch_url("https://api.gold-api.com/price/XAG")
+        res = json.loads(data_str)
+        price = float(res.get("price"))
+        if price > 0:
+            # Kitco standard: Bid = Spot Price, Ask = Spot Price + 0.10 USD
+            return {
+                "buy": round(price, 3), 
+                "sell": round(price + 0.10, 3), 
+                "source": "gold-api.com"
+            }
+    except Exception as e:
+        print(f"Scraper: Failed to fetch XAG USD: {e}")
+    return None
+
 def update_all_data():
     global market_data
 
     phu_quy = parse_phu_quy_silver()
+    xag_usd = fetch_xag_usd()
 
     with data_lock:
         if phu_quy:
             market_data["phu_quy"] = phu_quy
+        if xag_usd:
+            market_data["xag_usd"] = xag_usd
         market_data["timestamp"] = time.strftime("%H:%M:%S", time.localtime())
         market_data["date"] = time.strftime("%d/%m/%Y", time.localtime())
 
-    print(f"[{market_data['timestamp']}] Phu Quy silver price updated successfully.")
+    print(f"[{market_data['timestamp']}] Prices updated successfully.")
 
 def data_refresher_loop():
     # Initial load on startup

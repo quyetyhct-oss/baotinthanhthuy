@@ -18,8 +18,8 @@
     --text-muted: #64748b;
     
     --neon-blue: #38bdf8;
-    --neon-green: #10b981;
-    --neon-red: #f43f5e;
+    --neon-green: #00e676;
+    --neon-red: #ff3b30;
     --neon-yellow: #f59e0b;
     
     --font-heading: 'Outfit', sans-serif;
@@ -64,8 +64,8 @@ html {
 /* Dashboard Grid (Equal Heights) */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: clamp(10px, 1.5vh, 20px);
+    grid-template-columns: 1fr 440px; /* Chart on Left (1fr), Cards on Right (440px) */
+    gap: 12px;
     flex-grow: 1;
     min-height: 0; /* Allow grid to size itself within the flex parent */
 }
@@ -140,7 +140,7 @@ html {
     display: flex;
     flex-direction: column;
     height: 100%;
-    gap: clamp(8px, 1vh, 14px);
+    gap: 12px;
 }
 
 /* Symmetrical Card Layout */
@@ -206,6 +206,12 @@ html {
     border: 1px solid rgba(245, 158, 11, 0.25);
 }
 
+.symbol-tag.global-tag {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--neon-blue);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
 .symbol-name {
     font-family: var(--font-heading);
     font-size: clamp(12px, 1vw, 14px);
@@ -263,12 +269,12 @@ html {
     letter-spacing: -0.5px;
 }
 
-#phuquy-buy {
-    color: #ff5252;
+#phuquy-buy, .text-red {
+    color: var(--neon-red) !important;
 }
 
-#phuquy-sell {
-    color: #69f0ae;
+#phuquy-sell, .text-green {
+    color: var(--neon-green) !important;
 }
 
 .card-footer {
@@ -329,9 +335,6 @@ html {
 
 /* ==================== TV SCREENS & LARGE MONITOR OPTIMIZATION ==================== */
 @media (min-width: 1900px) {
-    .app-container {
-        max-width: 1800px;
-    }
     .price-value {
         font-size: 26px; /* Larger fonts for legibility from a distance */
     }

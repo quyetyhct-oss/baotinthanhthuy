@@ -20,7 +20,6 @@
 <body>
     <div class="app-container">
 
-
         <!-- Main Content Layout -->
         <main class="dashboard-grid">
             <!-- Left Side: Interactive Chart -->
@@ -48,10 +47,10 @@
                                 "style": "1",
                                 "locale": "vi",
                                 "enable_publishing": false,
-                                "hide_side_toolbar": false,
+                                "hide_side_toolbar": true,
                                 "allow_symbol_change": true,
-                                "details": true,
-                                "calendar": true,
+                                "details": false,
+                                "calendar": false,
                                 "container_id": "tradingview_xagusd"
                             });
                         </script>
@@ -73,11 +72,11 @@
                     </div>
                     <div class="phuquy-prices">
                         <div class="price-col buy">
-                            <span class="price-label">MUA VÀO <small>(tr/kg)</small></span>
+                            <span class="price-label">BID <small>(tr/kg)</small></span>
                             <span class="price-value text-red" id="phuquy-buy">57.250</span>
                         </div>
                         <div class="price-col sell">
-                            <span class="price-label">BÁN RA <small>(tr/kg)</small></span>
+                            <span class="price-label">ASK <small>(tr/kg)</small></span>
                             <span class="price-value text-green" id="phuquy-sell">59.010</span>
                         </div>
                     </div>
@@ -120,7 +119,7 @@
                     </div>
                 </div>
 
-                <!-- Card 4: USOIL TradingView Widget -->
+                <!-- Card 4: Brent Crude Oil TradingView Widget -->
                 <div class="price-card tv-widget-card" id="card-usoil">
                     <div class="tradingview-widget-container">
                         <div class="tradingview-widget-container__widget"></div>
