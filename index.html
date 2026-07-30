@@ -25,7 +25,7 @@
             <!-- Left Side: Interactive Chart -->
             <section class="chart-section" aria-labelledby="chart-title">
                 <div class="card-header">
-                    <h2 id="chart-title"><i class="fa-solid fa-chart-area"></i> Biểu đồ Bạc Thế giới (XAG/USD)</h2>
+                    <h2 id="chart-title"><i class="fa-solid fa-chart-area"></i> Biểu đồ Bạc Thế giới (XAG/USD) · OANDA</h2>
                     <div class="chart-actions">
                         <span class="badge">OANDA</span>
                         <span class="badge">Realtime</span>
@@ -38,8 +38,8 @@
                         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                         <script type="text/javascript">
                             new TradingView.widget({
-                                "width": "100%",
-                                "height": "100%",
+                                "container_id": "tradingview_xagusd",
+                                "autosize": true,
                                 "symbol": "OANDA:XAGUSD",
                                 "interval": "1",
                                 "timezone": "Asia/Ho_Chi_Minh",
@@ -50,8 +50,7 @@
                                 "hide_side_toolbar": true,
                                 "allow_symbol_change": true,
                                 "details": false,
-                                "calendar": false,
-                                "container_id": "tradingview_xagusd"
+                                "calendar": false
                             });
                         </script>
                     </div>
@@ -65,7 +64,7 @@
                 <div class="price-card highlight-card" id="card-phuquy">
                     <div class="card-header-sm">
                         <div class="card-title-group">
-                            <span class="symbol-tag vn-tag">BẠC VN</span>
+                            <img src="https://s3-symbol-logo.tradingview.com/silver.svg" class="symbol-logo" alt="Silver Logo">
                             <h3 class="symbol-name">BẠC PHÚ QUÝ 999</h3>
                         </div>
                         <span class="source-badge" id="phuquy-status">giabac.vn</span>
@@ -80,80 +79,69 @@
                             <span class="price-value text-green" id="phuquy-sell">59.010</span>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật tại VN: <span id="phuquy-time">--:--:--</span></span>
+                </div>
+
+                <!-- Card 2: XAGUSD TradingView Single Quote Widget -->
+                <div class="price-card tv-widget-card" id="card-xagusd">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "OANDA:XAGUSD",
+                            "width": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi_VN"
+                        }
+                        </script>
                     </div>
                 </div>
 
-                <!-- Card 2: XAGUSD Custom Card -->
-                <div class="price-card highlight-card" id="card-xagusd">
-                    <div class="card-header-sm">
-                        <div class="card-title-group">
-                            <span class="symbol-tag global-tag">BẠC TG</span>
-                            <h3 class="symbol-name">BẠC THẾ GIỚI (XAG/USD)</h3>
-                        </div>
-                        <span class="source-badge">oanda.com</span>
-                    </div>
-                    <div class="xagusd-single-price">
-                        <span class="price-value text-green" id="xagusd-spot">58.180</span>
-                        <span class="price-unit">USD/oz</span>
-                    </div>
-                    <div class="card-footer">
-                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật: <span id="xagusd-time">--:--:--</span></span>
+                <!-- Card 3: XAUUSD TradingView Single Quote Widget -->
+                <div class="price-card tv-widget-card" id="card-xauusd">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "OANDA:XAUUSD",
+                            "width": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi_VN"
+                        }
+                        </script>
                     </div>
                 </div>
 
-                <!-- Card 3: XAUUSD Custom Card -->
-                <div class="price-card highlight-card" id="card-xauusd">
-                    <div class="card-header-sm">
-                        <div class="card-title-group">
-                            <span class="symbol-tag vn-tag" style="background: rgba(245, 158, 11, 0.15); color: var(--neon-yellow); border: 1px solid rgba(245, 158, 11, 0.25);">VÀNG TG</span>
-                            <h3 class="symbol-name">VÀNG THẾ GIỚI (XAU/USD)</h3>
-                        </div>
-                        <span class="source-badge">gold-api.com</span>
-                    </div>
-                    <div class="xagusd-single-price">
-                        <span class="price-value text-green" id="xauusd-spot">4,048.795</span>
-                        <span class="price-unit">USD/oz</span>
-                    </div>
-                    <div class="card-footer">
-                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật: <span id="xauusd-time">--:--:--</span></span>
+                <!-- Card 4: DXY TradingView Single Quote Widget -->
+                <div class="price-card tv-widget-card" id="card-dxy">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "CAPITALCOM:DXY",
+                            "width": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi_VN"
+                        }
+                        </script>
                     </div>
                 </div>
 
-                <!-- Card 4: UKOIL (Brent Crude) Custom Card -->
-                <div class="price-card highlight-card" id="card-usoil">
-                    <div class="card-header-sm">
-                        <div class="card-title-group">
-                            <span class="symbol-tag global-tag">DẦU BRENT</span>
-                            <h3 class="symbol-name">DẦU BRENT (UKOIL)</h3>
-                        </div>
-                        <span class="source-badge">yahoo.com</span>
-                    </div>
-                    <div class="xagusd-single-price">
-                        <span class="price-value text-green" id="ukoil-spot">87.850</span>
-                        <span class="price-unit">USD/thùng</span>
-                    </div>
-                    <div class="card-footer">
-                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật: <span id="ukoil-time">--:--:--</span></span>
-                    </div>
-                </div>
-
-                <!-- Card 5: DXY Custom Card -->
-                <div class="price-card highlight-card" id="card-dxy">
-                    <div class="card-header-sm">
-                        <div class="card-title-group">
-                            <span class="symbol-tag global-tag">DXY</span>
-                            <h3 class="symbol-name">CHỈ SỐ USD (DXY)</h3>
-                        </div>
-                        <span class="source-badge">yahoo.com</span>
-                    </div>
-                    <div class="xagusd-single-price">
-                        <span class="price-value text-green" id="dxy-spot">101.037</span>
-                        <span class="price-unit">Điểm</span>
-                    </div>
-                    <div class="card-footer">
-                        <span class="footer-note"><i class="fa-regular fa-clock"></i> Cập nhật: <span id="dxy-time">--:--:--</span></span>
+                <!-- Card 5: UKOIL TradingView Single Quote Widget -->
+                <div class="price-card tv-widget-card" id="card-usoil">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                        {
+                            "symbol": "TVC:UKOIL",
+                            "width": "100%",
+                            "colorTheme": "dark",
+                            "isTransparent": true,
+                            "locale": "vi_VN"
+                        }
+                        </script>
                     </div>
                 </div>
             </aside>
@@ -161,6 +149,6 @@
     </div>
 
     <!-- JavaScript logic -->
-    <script src="script.js"></script>
+    <script src="script.js?v=2.2"></script>
 </body>
 </html>

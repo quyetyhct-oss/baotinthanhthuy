@@ -108,33 +108,47 @@ def fetch_xau_usd():
         print(f"Scraper: Failed to fetch XAU USD: {e}")
     return None
 
-def fetch_yahoo_symbol(symbol):
+def fetch_tradingview_price(symbol_path):
     try:
-        data_str = fetch_url(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1m&range=1d")
-        res = json.loads(data_str)
-        price = float(res['chart']['result'][0]['meta']['regularMarketPrice'])
-        if price > 0:
-            return {"price": price, "source": "yahoo"}
+        url = f"https://www.tradingview.com/symbols/{symbol_path}/"
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+        )
+        with urllib.request.urlopen(req, context=ssl_context, timeout=5) as response:
+            html = response.read().decode('utf-8')
+            match = re.search(r'"price":\s*([\d\.]+)', html)
+            if match:
+                return {"price": float(match.group(1)), "source": "tradingview.com"}
     except Exception as e:
-        print(f"Scraper: Failed to fetch {symbol} from Yahoo: {e}")
+        print(f"Scraper: Failed to fetch {symbol_path} from TradingView: {e}")
     return None
 
 def update_all_data():
     global market_data
 
     phu_quy = parse_phu_quy_silver()
-    xag_usd = fetch_xag_usd()
-    xau_usd = fetch_xau_usd()
-    uk_oil = fetch_yahoo_symbol("BZ=F")
-    dxy = fetch_yahoo_symbol("DX-Y.NYB")
+    
+    # Fetch all from TradingView directly for 100% chart matching
+    xag_data = fetch_tradingview_price("OANDA-XAGUSD")
+    xau_data = fetch_tradingview_price("OANDA-XAUUSD")
+    uk_oil = fetch_tradingview_price("TVC-UKOIL")
+    dxy = fetch_tradingview_price("CAPITALCOM-DXY")
 
     with data_lock:
         if phu_quy:
             market_data["phu_quy"] = phu_quy
-        if xag_usd:
-            market_data["xag_usd"] = xag_usd
-        if xau_usd:
-            market_data["xau_usd"] = xau_usd
+        if xag_data:
+            market_data["xag_usd"] = {
+                "buy": xag_data["price"],
+                "sell": xag_data["price"] + 0.10,
+                "source": "tradingview.com"
+            }
+        if xau_data:
+            market_data["xau_usd"] = {
+                "price": xau_data["price"],
+                "source": "tradingview.com"
+            }
         if uk_oil:
             market_data["uk_oil"] = uk_oil
         if dxy:
