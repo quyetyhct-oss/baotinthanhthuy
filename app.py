@@ -23,6 +23,18 @@ market_data = {
         "buy": 57.160,
         "sell": 57.260,
         "source": "initial_cache"
+    },
+    "xau_usd": {
+        "price": 4048.795,
+        "source": "initial_cache"
+    },
+    "uk_oil": {
+        "price": 87.85,
+        "source": "initial_cache"
+    },
+    "dxy": {
+        "price": 101.037,
+        "source": "initial_cache"
     }
 }
 
@@ -85,17 +97,48 @@ def fetch_xag_usd():
         print(f"Scraper: Failed to fetch XAG USD: {e}")
     return None
 
+def fetch_xau_usd():
+    try:
+        data_str = fetch_url("https://api.gold-api.com/price/XAU")
+        res = json.loads(data_str)
+        price = float(res.get("price"))
+        if price > 0:
+            return {"price": round(price, 3), "source": "gold-api.com"}
+    except Exception as e:
+        print(f"Scraper: Failed to fetch XAU USD: {e}")
+    return None
+
+def fetch_yahoo_symbol(symbol):
+    try:
+        data_str = fetch_url(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1m&range=1d")
+        res = json.loads(data_str)
+        price = float(res['chart']['result'][0]['meta']['regularMarketPrice'])
+        if price > 0:
+            return {"price": price, "source": "yahoo"}
+    except Exception as e:
+        print(f"Scraper: Failed to fetch {symbol} from Yahoo: {e}")
+    return None
+
 def update_all_data():
     global market_data
 
     phu_quy = parse_phu_quy_silver()
     xag_usd = fetch_xag_usd()
+    xau_usd = fetch_xau_usd()
+    uk_oil = fetch_yahoo_symbol("BZ=F")
+    dxy = fetch_yahoo_symbol("DX-Y.NYB")
 
     with data_lock:
         if phu_quy:
             market_data["phu_quy"] = phu_quy
         if xag_usd:
             market_data["xag_usd"] = xag_usd
+        if xau_usd:
+            market_data["xau_usd"] = xau_usd
+        if uk_oil:
+            market_data["uk_oil"] = uk_oil
+        if dxy:
+            market_data["dxy"] = dxy
         market_data["timestamp"] = time.strftime("%H:%M:%S", time.localtime())
         market_data["date"] = time.strftime("%d/%m/%Y", time.localtime())
 
