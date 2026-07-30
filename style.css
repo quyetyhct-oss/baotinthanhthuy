@@ -32,7 +32,10 @@ body {
     background-color: var(--bg-app);
     color: var(--text-primary);
     font-family: var(--font-body);
-    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden; /* Prevent body scrollbars for a clean native app look on TVs */
     background-image: 
         radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
@@ -51,14 +54,16 @@ html {
     -ms-overflow-style: none;
 }
 
-/* App Container Layout (Full screen, no header) */
+/* App Container Layout (Letterboxed to fit TV browser with black borders) */
 .app-container {
-    width: 100%;
+    width: 96%;
+    height: 90vh; /* Scaled down to 90vh to absorb TV web browser top/bottom bars */
+    max-width: 1720px;
+    margin: auto;
     padding: 8px;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    min-height: 500px;
+    min-height: 450px;
 }
 
 /* Dashboard Grid (Equal Heights - Percentage based for fluid scaling) */
