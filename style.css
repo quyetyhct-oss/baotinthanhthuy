@@ -1,27 +1,22 @@
-/* Reset and Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Design System & Variables */
 :root {
-    --bg-app: #050608; /* Deeper pure dark background for high OLED/TV contrast */
-    --bg-card: rgba(17, 20, 28, 0.75);
-    --bg-card-hover: rgba(26, 31, 44, 0.9);
+    --bg-app: #060809; /* Dark premium background color matching tradingview dark */
+    --bg-card: #0b0f12; /* Subtle dark color for widgets/containers */
+    --border-color: rgba(255, 255, 255, 0.06);
+    --border-color-hover: rgba(56, 189, 248, 0.15);
     
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-color-glow: rgba(56, 189, 248, 0.3);
+    /* Neon accents */
+    --neon-blue: #38bdf8;
+    --neon-green: #0ecb81;
+    --neon-red: #f6465d;
+    --gold: #f59e0b;
     
-    --text-primary: #f8fafc;
+    /* Text colors */
+    --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     
-    --neon-blue: #38bdf8;
-    --neon-green: #00e676;
-    --neon-red: #ff3b30;
-    --neon-yellow: #f59e0b;
-    
+    /* Fonts */
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
     
@@ -54,23 +49,22 @@ html {
     -ms-overflow-style: none;
 }
 
-/* App Container Layout (Letterboxed to fit TV browser with black borders) */
+/* App Container Layout (Letterboxed to absorb TV and laptop toolbars) */
 .app-container {
-    width: 96%;
-    height: 90vh; /* Scaled down to 90vh to absorb TV web browser top/bottom bars */
-    max-width: 1720px;
+    width: 98%;
+    height: 93vh; /* Shrink height to 93% of viewport to fit screen height perfectly */
     margin: auto;
     padding: 8px;
     display: flex;
     flex-direction: column;
-    min-height: 450px;
+    min-height: 460px;
 }
 
-/* Dashboard Grid (Equal Heights - Percentage based for fluid scaling) */
+/* Dashboard Grid (Equal Heights) */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 63% 37%; /* Chart on Left (63%), Cards on Right (37%) */
-    gap: 10px;
+    grid-template-columns: 1fr 520px; /* Chart on Left (1fr), wider Cards on Right (520px) */
+    gap: 10px; /* Reduced gap from 12px */
     flex-grow: 1;
     min-height: 0; /* Allow grid to size itself within the flex parent */
 }
@@ -129,6 +123,7 @@ html {
     flex-grow: 1;
     min-height: 0;
     width: 100%;
+    position: relative; /* Create positioning context to prevent flex height overflow */
 }
 
 .tradingview-widget-container {
@@ -137,7 +132,11 @@ html {
 }
 
 #tradingview_xagusd {
-    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Fill the relative parent perfectly */
 }
 
 /* Sidebar Prices (Perfect Height Balance) */
@@ -145,7 +144,7 @@ html {
     display: flex;
     flex-direction: column;
     height: 100%;
-    gap: 12px;
+    gap: 8px; /* Reduced from 12px to fit shorter screen heights */
 }
 
 /* Symmetrical Card Layout */
@@ -158,70 +157,27 @@ html {
     backdrop-filter: blur(12px);
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
-    position: relative;
 }
 
 .price-card:hover {
-    transform: translateY(-1px);
-    border-color: var(--border-color-glow);
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.06);
+    border-color: var(--border-color-hover);
+    box-shadow: var(--glow-shadow);
 }
 
-/* Highlight style for Phu Quy card */
-.price-card.highlight-card {
-    padding: clamp(8px, 1.2vh, 14px) 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.price-card.highlight-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
-}
-
+/* Symmetrical header inside all cards */
 .card-header-sm {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: clamp(8px, 1.2vh, 14px) clamp(12px, 1.2vw, 20px);
+    border-bottom: 1px dashed var(--border-color);
+    flex-shrink: 0;
 }
 
 .card-title-group {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 8px;
-}
-
-.symbol-tag {
-    font-size: clamp(8px, 0.7vw, 10px);
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 4px;
-}
-
-.symbol-tag.vn-tag {
-    background: rgba(245, 158, 11, 0.15);
-    color: var(--neon-yellow);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-}
-
-.symbol-tag.global-tag {
-    background: rgba(56, 189, 248, 0.15);
-    color: var(--neon-blue);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-}
-
-.symbol-name {
-    font-family: var(--font-heading);
-    font-size: clamp(10px, 0.8vw, 12px); /* Shrunk and cleaner */
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    gap: clamp(6px, 0.8vw, 10px);
 }
 
 .symbol-logo {
@@ -234,52 +190,55 @@ html {
     vertical-align: middle;
 }
 
+.symbol-name {
+    font-family: var(--font-heading);
+    font-size: clamp(10px, 0.8vw, 12px); /* Shrunk and cleaner */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
 .source-badge {
     font-size: clamp(9px, 0.8vw, 11px);
     color: var(--text-muted);
     font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
+/* Card 1: Phu Quy Layout */
 .phuquy-prices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    background: rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--border-color);
-    padding: clamp(6px, 1vh, 12px) 14px;
-    border-radius: 10px;
-    margin: 4px 0;
+    display: flex;
+    height: calc(100% - 45px); /* Fill remaining card height */
 }
 
 .price-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2px;
+    align-items: center;
+    flex: 1;
 }
 
 .price-col.buy {
     border-right: 1px solid var(--border-color);
-    padding-right: 6px;
 }
 
 .price-label {
-    font-size: clamp(8px, 0.7vw, 10px);
+    font-size: clamp(9px, 0.8vw, 11px);
     color: var(--text-secondary);
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
 }
 
 .price-label small {
     color: var(--text-muted);
     font-weight: 400;
+    text-transform: lowercase;
 }
 
 .price-value {
     font-family: var(--font-heading);
-    font-size: clamp(28px, 2.8vw, 40px); /* Larger price numbers for Phu Quy Silver */
+    font-size: clamp(22px, 2.2vw, 32px); /* Standard size for computer screen */
     font-weight: 800;
     letter-spacing: -0.5px;
 }
@@ -292,50 +251,11 @@ html {
     color: var(--neon-green) !important;
 }
 
-/* XAGUSD Single Price Layout */
-.xagusd-single-price {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(2px, 0.4vh, 6px) 0; /* Compact padding to fit within chart height */
-    flex-grow: 1;
-}
-
-#xagusd-spot, #xauusd-spot, #ukoil-spot, #dxy-spot {
-    font-size: clamp(42px, 4.6vw, 60px) !important; /* Extremely giant price size matching Screenshot 2 */
-    font-weight: 400; /* Clean, light weight font matching Screenshot 2 */
-    line-height: 0.95;
-    letter-spacing: -1.5px;
-    color: #ffffff !important; /* Pure white on black background */
-}
-
-.price-unit {
-    font-size: clamp(9px, 0.7vw, 11px);
-    color: var(--text-secondary);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 2px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: clamp(8px, 0.7vw, 10px);
-    color: var(--text-muted);
-}
-
-.footer-note i {
-    margin-right: 3px;
-}
-
 /* Source Badge Overlay on TV Widgets */
 .widget-source-badge {
     position: absolute;
     top: 10px;
-    right: 48px; /* Shifted left to stay next to the TV logo and prevent overlap */
+    right: 42px; /* Positioned to stay next to the TV logo with 1.22 scale */
     font-size: clamp(8px, 0.75vw, 10px);
     color: var(--text-muted);
     background: rgba(18, 22, 26, 0.6);
@@ -367,9 +287,9 @@ html {
 }
 
 .tv-widget-card .tradingview-widget-container {
-    width: 74% !important; /* Visual width becomes 74% * 1.3 = 96.2% (pulls TV logo fully inside the frame!) */
-    height: 74% !important; /* Visual height becomes 74% * 1.3 = 96.2% */
-    transform: scale(1.3); /* Magnify entire widget by 1.3x for giant price numbers */
+    width: 78% !important; /* Visual width becomes 78% * 1.22 = 95.1% */
+    height: 78% !important; /* Visual height becomes 78% * 1.22 = 95.1% */
+    transform: scale(1.22); /* Reduced slightly from 1.3x to fit laptop screen heights safely */
     transform-origin: center center;
     --tv-single-quote-symbol-font-size: 11px !important; /* Chữ tên mã nhỏ */
     --tv-single-quote-price-font-size: 26px !important;  /* Số giá gốc của TradingView */
@@ -412,7 +332,7 @@ html {
 /* ==================== TV SCREENS & LARGE MONITOR OPTIMIZATION ==================== */
 @media (min-width: 1900px) {
     .price-value {
-        font-size: 52px; /* Extra large fonts for TV legibility from a distance */
+        font-size: 38px; /* Extra large fonts for TV legibility from a distance */
     }
     #xagusd-spot, #xauusd-spot, #ukoil-spot, #dxy-spot {
         font-size: 72px !important; /* Huge text on large TVs */
@@ -440,7 +360,7 @@ html {
 }
 
 /* ==================== ANDROID & MOBILE SCREEN OPTIMIZATION ==================== */
-@media (max-width: 580px) {
+@media (max-width: 992px) {
     body {
         overflow-y: auto; /* Enable scrollbars when columns collapse */
     }
@@ -448,50 +368,76 @@ html {
     .app-container {
         height: auto;
         min-height: auto;
-        padding: 6px;
     }
     
     .dashboard-grid {
         grid-template-columns: 1fr;
         height: auto;
-        gap: 8px;
     }
     
     .chart-section {
-        height: 45vh;
-        min-height: 280px;
+        height: 50vh;
+        min-height: 380px;
     }
     
     .sidebar-section {
         height: auto;
-        gap: 8px;
+        gap: 12px;
     }
     
     .price-card {
-        height: 100px;
+        height: 120px;
         flex: none; /* Disable auto-stretch, use fixed heights */
     }
 }
 
-/* ==================== SMART TV BROWSER SPECIFIC ADJUSTMENTS (BrowseHere, Android TV) ==================== */
-body.device-tv .app-container {
-    width: 90% !important;
-    height: 80vh !important; /* Shrink vertically to 80% to fit browsehere status bars */
-    max-width: 1480px !important;
-    min-height: auto !important;
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+    
+    .chart-section {
+        height: 40vh;
+        min-height: 300px;
+    }
 }
 
-body.device-tv .dashboard-grid {
-    grid-template-columns: 63% 37% !important; /* Enforce Widescreen layout side-by-side even if browser reports small viewport! */
-    gap: 8px !important;
+/* ==================== DYNAMIC RESPONSIVE HEIGHT OPTIMIZATIONS (Windowed vs F11 Fullscreen) ==================== */
+@media (max-height: 780px) {
+    .app-container {
+        height: 90vh !important; /* Compress layout vertically to clear toolbar bounds */
+    }
+    .sidebar-section {
+        gap: 6px !important;
+    }
+    .price-card {
+        padding: 4px 10px !important; /* Shrunk padding to save height */
+    }
+    .price-value {
+        font-size: clamp(24px, 2vw, 30px) !important;
+    }
+    .tv-widget-card .tradingview-widget-container {
+        width: 82% !important;
+        height: 82% !important;
+        transform: scale(1.1) !important; /* Reduce widget scale on standard laptop windowed mode */
+    }
+    .widget-source-badge {
+        right: 36px !important; /* Shift next to 1.1x scale TV logo */
+        top: 6px !important;
+    }
 }
 
-body.device-tv .tv-widget-card .tradingview-widget-container {
-    width: 76% !important;
-    height: 76% !important;
-    transform: scale(1.22) !important; /* Slightly smaller scale to avoid any overflow in shrunk card */
-}
-
-body.device-tv .widget-source-badge {
-    right: 42px !important; /* Reposition next to scaled TV logo */
+@media (max-height: 680px) {
+    .app-container {
+        height: 88vh !important;
+    }
+    .tv-widget-card .tradingview-widget-container {
+        transform: scale(1.0) !important; /* Remove scaling transform completely on short screens */
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .widget-source-badge {
+        right: 12px !important; /* Revert badge to original bounds */
+        top: 6px !important;
+    }
 }
