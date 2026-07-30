@@ -17,6 +17,24 @@ function formatNumber(num, decimals = 2) {
     });
 }
 
+// TV and Browser detection to dynamically shrink layout on restricted viewports (Android TV, BrowseHere)
+function detectAndAdjustTV() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isTV = userAgent.includes('tv') || 
+                 userAgent.includes('smarttv') || 
+                 userAgent.includes('googletv') || 
+                 userAgent.includes('androidtv') || 
+                 userAgent.includes('browsehere') ||
+                 userAgent.includes('sony') ||
+                 userAgent.includes('webos') ||
+                 userAgent.includes('tizen');
+
+    if (isTV) {
+        document.body.classList.add('device-tv');
+        console.log('TV Browser detected: BrowseHere/Smart TV. Applying TV specific viewport constraints.');
+    }
+}
+
 // Fetch prices from local/Vercel server
 async function fetchPrices() {
     try {
@@ -59,6 +77,7 @@ async function fetchPrices() {
 
 // Initial fetch and schedule periodic updates
 document.addEventListener('DOMContentLoaded', () => {
+    detectAndAdjustTV();
     fetchPrices();
     setInterval(fetchPrices, FETCH_INTERVAL);
 });

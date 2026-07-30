@@ -472,3 +472,26 @@ html {
         flex: none; /* Disable auto-stretch, use fixed heights */
     }
 }
+
+/* ==================== SMART TV BROWSER SPECIFIC ADJUSTMENTS (BrowseHere, Android TV) ==================== */
+body.device-tv .app-container {
+    width: 90% !important;
+    height: 80vh !important; /* Shrink vertically to 80% to fit browsehere status bars */
+    max-width: 1480px !important;
+    min-height: auto !important;
+}
+
+body.device-tv .dashboard-grid {
+    grid-template-columns: 63% 37% !important; /* Enforce Widescreen layout side-by-side even if browser reports small viewport! */
+    gap: 8px !important;
+}
+
+body.device-tv .tv-widget-card .tradingview-widget-container {
+    width: 76% !important;
+    height: 76% !important;
+    transform: scale(1.22) !important; /* Slightly smaller scale to avoid any overflow in shrunk card */
+}
+
+body.device-tv .widget-source-badge {
+    right: 42px !important; /* Reposition next to scaled TV logo */
+}
