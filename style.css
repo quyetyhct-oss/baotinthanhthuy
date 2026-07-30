@@ -61,11 +61,11 @@ html {
     min-height: 500px;
 }
 
-/* Dashboard Grid (Equal Heights) */
+/* Dashboard Grid (Equal Heights - Percentage based for fluid scaling) */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 520px; /* Chart on Left (1fr), wider Cards on Right (520px) */
-    gap: 12px;
+    grid-template-columns: 63% 37%; /* Chart on Left (63%), Cards on Right (37%) */
+    gap: 10px;
     flex-grow: 1;
     min-height: 0; /* Allow grid to size itself within the flex parent */
 }
@@ -406,9 +406,6 @@ html {
 
 /* ==================== TV SCREENS & LARGE MONITOR OPTIMIZATION ==================== */
 @media (min-width: 1900px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr 640px; /* Even wider cards on TV screen */
-    }
     .price-value {
         font-size: 52px; /* Extra large fonts for TV legibility from a distance */
     }
@@ -438,7 +435,7 @@ html {
 }
 
 /* ==================== ANDROID & MOBILE SCREEN OPTIMIZATION ==================== */
-@media (max-width: 768px) {
+@media (max-width: 580px) {
     body {
         overflow-y: auto; /* Enable scrollbars when columns collapse */
     }
@@ -446,36 +443,27 @@ html {
     .app-container {
         height: auto;
         min-height: auto;
+        padding: 6px;
     }
     
     .dashboard-grid {
         grid-template-columns: 1fr;
         height: auto;
+        gap: 8px;
     }
     
     .chart-section {
-        height: 50vh;
-        min-height: 380px;
+        height: 45vh;
+        min-height: 280px;
     }
     
     .sidebar-section {
         height: auto;
-        gap: 12px;
+        gap: 8px;
     }
     
     .price-card {
-        height: 120px;
+        height: 100px;
         flex: none; /* Disable auto-stretch, use fixed heights */
-    }
-}
-
-@media (max-width: 768px) {
-    .app-container {
-        padding: 10px;
-    }
-    
-    .chart-section {
-        height: 40vh;
-        min-height: 300px;
     }
 }
