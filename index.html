@@ -208,6 +208,17 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
+  /* TỐI ƯU HÓA PHÔNG CHỮ GIÁ SIÊU LỚN CHO TV (MÀN HÌNH LỚN) */
+  @media (min-width: 1900px) {
+    .tradingview-widget-container {
+      --tv-single-quote-price-font-size: 40px !important; /* Phóng lớn giá thế giới lên 40px trên TV để nhìn từ xa cực kỳ rõ */
+      --tv-single-quote-symbol-font-size: 14px !important;
+    }
+    .price-val {
+      font-size: 40px !important; /* Đồng bộ giá Phú Quy lên 40px trên TV */
+    }
+  }
+
   /* RESPONSIVE THÔNG MINH CHO MOBILE VÀ MÀN HÌNH NHỎ */
   @media (max-width: 768px){
     body{ padding:6px; height:auto; overflow:auto; }
