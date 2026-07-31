@@ -17,13 +17,18 @@
     --down: #ff3d00;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
   body{
     background:var(--bg);
     font-family:'Inter',sans-serif;
     color:var(--text);
     padding: 0 clamp(8px, 1vw, 16px) clamp(16px, 2vw, 32px) clamp(8px, 1vw, 16px);
-    height: 100dvh;
+    height: 100vh; /* Sửa dVH thành vH vì Tivi cũ không hiểu dVH */
     overflow: hidden;
   }
   
