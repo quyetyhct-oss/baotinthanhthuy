@@ -80,6 +80,23 @@
     border-radius: 8px;
   }
 
+  .source-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-size: 8px;
+    color: #6e7681;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    z-index: 10;
+    pointer-events: none;
+    background: var(--bg);
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+
   .widget-box {
     width: 100%;
     height: 100%;
@@ -101,10 +118,11 @@
   .vn-silver-card {
     width: 100%;
     height: 100%;
-    padding: 8px 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 12px;
     background: var(--panel);
   }
 
@@ -155,6 +173,8 @@
   .price-box {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .price-label {
@@ -202,7 +222,7 @@
       gap: 6px;
     }
     .ticker{
-      height:90px;
+      height:125px; /* Tăng chiều cao để widget không bị lẹm mất phần trên */
     }
   }
 </style>
@@ -243,6 +263,7 @@
 
     <!-- 2. BẠC XAGUSD QUỐC TẾ -->
     <div class="ticker">
+      <div class="source-badge">Nguồn: OANDA</div>
       <div class="widget-box">
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
         {
@@ -258,6 +279,7 @@
 
     <!-- 3. VÀNG XAUUSD -->
     <div class="ticker">
+      <div class="source-badge">Nguồn: OANDA</div>
       <div class="widget-box">
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
         {
@@ -271,12 +293,13 @@
       </div>
     </div>
 
-    <!-- 4. GIÁ DẦU THÔ (USOIL) -->
+    <!-- 4. GIÁ DẦU THÔ (UKOIL) -->
     <div class="ticker">
+      <div class="source-badge">Nguồn: TVC</div>
       <div class="widget-box">
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
         {
-        "symbol": "TVC:USOIL",
+        "symbol": "TVC:UKOIL",
         "width": "100%",
         "colorTheme": "dark",
         "isTransparent": true,
@@ -288,6 +311,7 @@
 
     <!-- 5. CHỈ SỐ DXY (ĐÔ LA MỸ) -->
     <div class="ticker">
+      <div class="source-badge">Nguồn: CAPITALCOM</div>
       <div class="widget-box">
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
         {
