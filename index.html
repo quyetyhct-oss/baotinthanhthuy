@@ -115,9 +115,9 @@
   }
 
   /* Tùy biến phông chữ của TradingView Single Quote (Phóng to số giá trực tiếp bằng biến CSS) */
-  .tradingview-widget-container {
+  .widget-box, .tradingview-widget-container {
     --tv-single-quote-symbol-font-size: 12px !important; /* Tên mã */
-    --tv-single-quote-price-font-size: 34px !important;  /* Phóng to số giá thế giới lên 34px tương ứng với độ rộng mới */
+    --tv-single-quote-price-font-size: 36px !important;  /* Phóng lớn giá trị số lên 36px cho tất cả các giao diện (Web, TV, Android) */
   }
 
   /* WIDGET GIÁ BẠC VIỆT NAM (TRIỆU ĐỒNG / KG) */
@@ -210,12 +210,12 @@
 
   /* TỐI ƯU HÓA PHÔNG CHỮ GIÁ SIÊU LỚN CHO TV (MÀN HÌNH LỚN) */
   @media (min-width: 1900px) {
-    .tradingview-widget-container {
-      --tv-single-quote-price-font-size: 40px !important; /* Phóng lớn giá thế giới lên 40px trên TV để nhìn từ xa cực kỳ rõ */
+    .widget-box, .tradingview-widget-container {
+      --tv-single-quote-price-font-size: 42px !important; /* Phóng lớn giá thế giới lên 42px trên TV để nhìn từ xa cực kỳ rõ */
       --tv-single-quote-symbol-font-size: 14px !important;
     }
     .price-val {
-      font-size: 40px !important; /* Đồng bộ giá Phú Quy lên 40px trên TV */
+      font-size: 42px !important; /* Đồng bộ giá Phú Quy lên 42px trên TV */
     }
   }
 
