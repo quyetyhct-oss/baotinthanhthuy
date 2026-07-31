@@ -246,6 +246,13 @@
     .price-val {
       font-size: 34px !important; /* Phóng lớn cỡ chữ số Phú Quý trên mobile lên 34px vì ô đã được dàn rộng rãi */
     }
+    /* Giảm tỷ lệ scale của 4 ô thế giới trên mobile xuống 1.23 để đạt cỡ chữ 32px vừa khít */
+    .widget-box {
+      width: 81.3% !important; /* 81.3% * 1.23 = 100% visual width */
+      height: 81.3% !important;
+      transform: translate(-50%, -50%) scale(1.23) !important;
+      transform-origin: center center;
+    }
   }
 </style>
 </head>
