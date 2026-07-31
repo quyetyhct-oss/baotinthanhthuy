@@ -243,13 +243,21 @@
       zoom: 1.5;
     }
   }
+
+  /* CHẾ ĐỘ TIVI TỰ ĐỘNG - XỬ LÝ LỖI TRÀN MÀN HÌNH */
+  body.tv-mode {
+    width: 66.666% !important;
+    height: 66.666% !important;
+    zoom: 1.5 !important;
+  }
 </style>
 <script>
-  // Tự động nhận diện Tivi (Samsung Tizen, LG WebOS, Android TV...)
-  // Các Tivi thường báo độ phân giải ảo là 1080p thay vì 4K, nên CSS không tự nhận được.
-  // JS sẽ ép buộc phóng to 150% nếu là Tivi.
+  // Tự động nhận diện Tivi và kích hoạt chế độ tv-mode
   if (/SmartTV|Tizen|Web0S|TV|NetCast|Viera|BRAVIA/i.test(navigator.userAgent)) {
-    document.documentElement.style.zoom = "1.5";
+    // Đợi body tải xong rồi thêm class
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.classList.add("tv-mode");
+    });
   }
 </script>
 </head>
