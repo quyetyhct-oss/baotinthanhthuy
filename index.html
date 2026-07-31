@@ -38,7 +38,7 @@
     grid-template-columns: minmax(0, 1fr) clamp(240px, 25vw, 500px); 
     gap: clamp(8px, 1vw, 16px);
     width:100%;
-    height:100%;
+    min-height:100%;
   }
 
   .panel{
@@ -83,7 +83,7 @@
 
   .ticker{
     flex:1;
-    min-height:0;
+    min-height: clamp(90px, 12vh, 160px); /* Giảm giới hạn tối thiểu để các ô có thể thu nhỏ vừa màn hình Laptop */
     position: relative;
     overflow: hidden;
     background: var(--panel);
@@ -129,16 +129,15 @@
   .vn-silver-card {
     width: 100%;
     height: 100%;
-    padding: clamp(12px, 1.5vw, 24px);
+    padding: clamp(8px, 1.2vh, 20px) clamp(12px, 1.5vw, 24px);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(12px, 1.5vw, 24px);
+    justify-content: space-between; /* Giữ title và footer ở 2 đầu */
     background: var(--panel);
   }
 
   .vn-title {
-    font-size: clamp(10px, 1vw, 16px);
+    font-size: clamp(9px, 1.2vmin, 16px);
     font-weight: 700;
     color: #8b98a5;
     display: flex;
@@ -178,7 +177,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(6px, 1vw, 16px);
-    margin-top: 2px;
+    margin: auto 0; /* Căn giữa theo chiều dọc */
   }
 
   .price-box {
@@ -189,14 +188,14 @@
   }
 
   .price-label {
-    font-size: clamp(9px, 0.9vw, 14px);
+    font-size: clamp(8px, 1.2vmin, 14px);
     color: #6e7681;
     margin-bottom: 2px;
   }
 
   .price-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(24px, 2.2vw, 48px);
+    font-size: clamp(20px, 3.5vmin, 48px); /* Nhỏ lại 1 chút để không bị chiếm hết chỗ */
     font-weight: 700;
     transition: color 0.3s ease;
   }
