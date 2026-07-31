@@ -29,7 +29,7 @@
   
   .wrap{
     display:grid;
-    grid-template-columns: minmax(0, 1fr) clamp(240px, 22vw, 280px); 
+    grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 380px); /* Expanded right cards column and shrunk left chart column */
     gap:8px;
     width:100%;
     height:100%;
@@ -114,6 +114,12 @@
     border: none;
   }
 
+  /* Tùy biến phông chữ của TradingView Single Quote (Phóng to số giá trực tiếp bằng biến CSS) */
+  .tradingview-widget-container {
+    --tv-single-quote-symbol-font-size: 12px !important; /* Tên mã */
+    --tv-single-quote-price-font-size: 34px !important;  /* Phóng to số giá thế giới lên 34px tương ứng với độ rộng mới */
+  }
+
   /* WIDGET GIÁ BẠC VIỆT NAM (TRIỆU ĐỒNG / KG) */
   .vn-silver-card {
     width: 100%;
@@ -185,7 +191,7 @@
 
   .price-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 24px; /* Chữ to lên theo yêu cầu */
+    font-size: 34px; /* Tăng cỡ chữ giá Phú Quý lên 34px để đồng đều cột phải */
     font-weight: 700;
     transition: color 0.3s ease;
   }
