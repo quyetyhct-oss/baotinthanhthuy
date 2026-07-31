@@ -237,13 +237,21 @@
     }
   }
 
-  /* PHÓNG TO 150% CHO TIVI 4K VÀ MÀN HÌNH SIÊU LỚN */
+  /* PHÓNG TO 150% CHO TIVI 4K VÀ MÀN HÌNH SIÊU LỚN (NẾU NHẬN ĐÚNG ĐỘ PHÂN GIẢI 4K) */
   @media (min-width: 2160px) {
     html {
       zoom: 1.5;
     }
   }
 </style>
+<script>
+  // Tự động nhận diện Tivi (Samsung Tizen, LG WebOS, Android TV...)
+  // Các Tivi thường báo độ phân giải ảo là 1080p thay vì 4K, nên CSS không tự nhận được.
+  // JS sẽ ép buộc phóng to 150% nếu là Tivi.
+  if (/SmartTV|Tizen|Web0S|TV|NetCast|Viera|BRAVIA/i.test(navigator.userAgent)) {
+    document.documentElement.style.zoom = "1.5";
+  }
+</script>
 </head>
 <body>
 
