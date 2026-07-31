@@ -243,21 +243,15 @@
       zoom: 1.5;
     }
   }
-
-  /* CHẾ ĐỘ TIVI TỰ ĐỘNG - XỬ LÝ LỖI TRÀN MÀN HÌNH */
-  body.tv-mode {
-    width: 66.666% !important;
-    height: 66.666% !important;
-    zoom: 1.5 !important;
-  }
 </style>
 <script>
-  // Tự động nhận diện Tivi và kích hoạt chế độ tv-mode
+  // Kích hoạt Zoom nguyên bản (Native Zoom) qua Viewport cho Tivi Samsung/LG
+  // Phương pháp này mô phỏng chính xác thao tác bấm Zoom 150% trên Remote, không làm vỡ CSS
   if (/SmartTV|Tizen|Web0S|TV|NetCast|Viera|BRAVIA/i.test(navigator.userAgent)) {
-    // Đợi body tải xong rồi thêm class
-    document.addEventListener("DOMContentLoaded", function() {
-      document.body.classList.add("tv-mode");
-    });
+    var viewportMeta = document.querySelector('meta[name="viewport"]');
+    if (viewportMeta) {
+      viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.5, minimum-scale=1.5, maximum-scale=3.0');
+    }
   }
 </script>
 </head>
