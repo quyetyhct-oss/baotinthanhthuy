@@ -29,7 +29,7 @@
   
   .wrap{
     display:grid;
-    grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 380px); /* Expanded right cards column and shrunk left chart column */
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 22vw, 280px); 
     gap:8px;
     width:100%;
     height:100%;
@@ -98,13 +98,11 @@
   }
 
   .widget-box {
-    width: 72.4% !important; /* 72.4% * 1.38 = 100% visual width inside card */
-    height: 72.4% !important; /* 72.4% * 1.38 = 100% visual height */
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.38); /* Center and scale by 1.38x to make native 26px font become 36px */
-    transform-origin: center center;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,7 +185,7 @@
 
   .price-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 34px; /* Tăng cỡ chữ giá Phú Quý lên 34px để đồng đều cột phải */
+    font-size: 24px; /* Chữ to lên theo yêu cầu */
     font-weight: 700;
     transition: color 0.3s ease;
   }
@@ -204,16 +202,25 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* TỐI ƯU HÓA PHÔNG CHỮ GIÁ SIÊU LỚN CHO TV (MÀN HÌNH LỚN) */
-  @media (min-width: 1900px) {
-    .widget-box {
-      width: 61.9% !important; /* 61.9% * 1.615 = 100% visual width inside card on TV */
-      height: 61.9% !important;
-      transform: translate(-50%, -50%) scale(1.615) !important; /* Scale by 1.615x on TV to make 26px font become 42px */
+  /* RESPONSIVE CHO MÀN HÌNH TIVI 4K / SIÊU RỘNG */
+  @media (min-width: 2160px){
+    body { padding: 24px 32px 48px 32px; }
+    .wrap {
+      grid-template-columns: minmax(0, 1fr) clamp(450px, 20vw, 700px);
+      gap: 24px;
     }
-    .price-val {
-      font-size: 42px !important; /* Đồng bộ giá Phú Quy lên 42px trên TV */
-    }
+    .chart-header { font-size: 20px; padding: 20px 32px; }
+    .chart-header .dot { width: 12px; height: 12px; }
+    .right-col { gap: 16px; }
+    .vn-silver-card { padding: 32px; gap: 24px; }
+    .vn-title { font-size: 18px; }
+    .live-tag { font-size: 14px; padding: 6px 10px; }
+    .live-dot { width: 8px; height: 8px; }
+    .vn-price-grid { gap: 20px; margin-top: 12px; }
+    .price-label { font-size: 16px; margin-bottom: 6px; }
+    .price-val { font-size: 48px; }
+    .vn-footer { font-size: 14px; }
+    .source-badge { font-size: 14px; bottom: 16px; right: 16px; padding: 4px 8px; border-radius: 6px; }
   }
 
   /* RESPONSIVE THÔNG MINH CHO MOBILE VÀ MÀN HÌNH NHỎ */
@@ -233,25 +240,11 @@
       grid-column:1;
       height:auto;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Chỉnh lại để không bị ép nhỏ quá mất giá */
       gap: 6px;
-    }
-    /* Cho ô Bạc Phú Quy trải dài 2 cột trên điện thoại để hiển thị đầy đủ Mua/Bán */
-    .right-col > .ticker:first-child {
-      grid-column: span 2;
     }
     .ticker{
       height:125px; /* Tăng chiều cao để widget không bị lẹm mất phần trên */
-    }
-    .price-val {
-      font-size: 34px !important; /* Phóng lớn cỡ chữ số Phú Quý trên mobile lên 34px vì ô đã được dàn rộng rãi */
-    }
-    /* Giảm tỷ lệ scale của 4 ô thế giới trên mobile xuống 1.23 để đạt cỡ chữ 32px vừa khít */
-    .widget-box {
-      width: 81.3% !important; /* 81.3% * 1.23 = 100% visual width */
-      height: 81.3% !important;
-      transform: translate(-50%, -50%) scale(1.23) !important;
-      transform-origin: center center;
     }
   }
 </style>
@@ -381,38 +374,30 @@
     "studies": [] // Tắt toàn bộ chỉ báo tự động vẽ
   });
 
-  // Sử dụng API nội bộ cùng tên miền để tránh hoàn toàn lỗi bảo mật CORS trên Chrome/Safari máy tính
-  const LOCAL_API_URL = '/api/prices';
+  // URL WORKER ĐÃ ĐƯỢC CẤP PHÉP
+  const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
 
   let lastBuy = 0;
   let lastSell = 0;
 
   async function fetchVNSilverPrice() {
     try {
-      const response = await fetch(LOCAL_API_URL);
+      const response = await fetch(WORKER_URL);
       if (response.ok) {
         const data = await response.json();
         
-        let buyVal = null;
-        let sellVal = null;
-        
-        // Hỗ trợ cả 2 định dạng phản hồi (từ Vercel API nội bộ hoặc Worker dự phòng)
-        if (data.phu_quy) {
-          buyVal = parseFloat(data.phu_quy.buy);
-          sellVal = parseFloat(data.phu_quy.sell);
-        } else {
-          buyVal = data.buyRaw ? (parseFloat(data.buyRaw) / 1000000) : parseFloat(data.buy);
-          sellVal = data.sellRaw ? (parseFloat(data.sellRaw) / 1000000) : parseFloat(data.sell);
-        }
+        // Dùng buyRaw / sellRaw chia 1 triệu để lấy đủ 5 chữ số (VD: 57.279)
+        const buyVal = data.buyRaw ? (parseFloat(data.buyRaw) / 1000000) : parseFloat(data.buy);
+        const sellVal = data.sellRaw ? (parseFloat(data.sellRaw) / 1000000) : parseFloat(data.sell);
 
-        if (buyVal !== null && sellVal !== null && !isNaN(buyVal) && !isNaN(sellVal)) {
+        if (!isNaN(buyVal) && !isNaN(sellVal)) {
           updatePrice(buyVal, sellVal);
           return;
         }
       }
       showErrorState("Lỗi định dạng API");
     } catch (e) {
-      console.error("Lỗi khi kết nối API:", e);
+      console.error("Lỗi khi kết nối Worker:", e);
       showErrorState("Không thể kết nối API");
     }
   }
@@ -452,9 +437,9 @@
     }
   }
 
-  // TỰ ĐỘNG LẤY GIÁ BẠC THẬT MỖI 15 GIÂY
+  // TỰ ĐỘNG LẤY GIÁ BẠC THẬT MỖI 10 GIÂY
   fetchVNSilverPrice();
-  setInterval(fetchVNSilverPrice, 15000);
+  setInterval(fetchVNSilverPrice, 10000);
 </script>
 
 </body>
