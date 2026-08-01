@@ -229,11 +229,21 @@
       grid-column:1;
       height:auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, 1fr); /* Thu lại thành 2 cột như giao diện cũ */
       gap: 6px;
     }
     .ticker{
-      height:125px; 
+      height: 125px; 
+    }
+    /* Ô Bạc Phú Quý to ngang toàn bộ màn hình */
+    .ticker:first-child {
+      grid-column: 1 / -1; 
+      height: auto; 
+      min-height: 140px; /* Cho ô đầu tiên cao hơn một chút */
+    }
+    /* Chỉnh chữ số hiển thị của Bạc Phú Quý trên mobile là 36px */
+    .ticker:first-child .price-val {
+      font-size: 36px !important;
     }
   }
 
