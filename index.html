@@ -28,7 +28,7 @@
     font-family:'Inter',sans-serif;
     color:var(--text);
     padding: clamp(12px, 2vh, 24px) clamp(8px, 1vw, 16px); 
-    height: 100vh; 
+    height: 100%; /* Sửa 100vh thành 100% để sửa lỗi bị thanh điều hướng Android che lấp phần dưới */
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -212,8 +212,9 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* RESPONSIVE THÔNG MINH CHO MOBILE VÀ MÀN HÌNH NHỎ */
-  @media (max-width: 768px){
+  /* RESPONSIVE THÔNG MINH CHO MOBILE (MÀN HÌNH DỌC) */
+  /* Chỉ áp dụng cho màn dọc để màn hình ô tô (nằm ngang) không bị nhận nhầm thành điện thoại */
+  @media (max-width: 768px) and (orientation: portrait){
     body{ padding:6px; height:auto; overflow:auto; }
     .wrap{
       grid-template-columns: 1fr;
@@ -245,6 +246,19 @@
     .ticker:first-child .price-val {
       font-size: 36px !important;
     }
+  }
+
+  /* TỐI ƯU RIÊNG CHO MÀN HÌNH ANDROID Ô TÔ (RỘNG NHƯNG RẤT THẤP) */
+  @media (max-height: 600px) and (orientation: landscape) {
+    body { padding: 4px; }
+    .wrap { gap: 4px; grid-template-columns: minmax(0, 1fr) clamp(200px, 25vw, 300px); }
+    .right-col { gap: 4px; }
+    .ticker { min-height: 85px; } /* Thu nhỏ tối đa để vừa chiều cao */
+    .vn-silver-card { padding: 4px 8px; gap: 2px; justify-content: space-evenly; }
+    .vn-title { font-size: 10px !important; }
+    .price-val { font-size: 20px !important; }
+    .price-label { font-size: 8px !important; margin-bottom: 0; }
+    .live-tag { font-size: 8px; padding: 2px 4px; }
   }
 
   /* PHÓNG TO 150% CHO TIVI 4K VÀ MÀN HÌNH SIÊU LỚN (NẾU NHẬN ĐÚNG ĐỘ PHÂN GIẢI 4K) */
