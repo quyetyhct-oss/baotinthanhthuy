@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bảo Tín Thanh Thủy - Bảng Giá Live</title>
 
-<!-- 🟢 BỘ FAVICON TIÊU CHUẨN CAO NHẤT CHO TRÌNH DUYỆT & ĐIỆN THOẠI 🟢 -->
+<!-- 🟢 BỘ FAVICON TIÊU CHUẨN CHO TRÌNH DUYỆT & ĐIỆN THOẠI 🟢 -->
 <link rel="icon" href="logo.png" sizes="32x32" type="image/png">
 <link rel="icon" href="logo.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="logo.png">
@@ -63,7 +63,7 @@
   
   .chart-header{
     display:flex; align-items:center; gap:8px;
-    padding: 14px 16px; /* Nới khung thêm chút nữa để vừa với logo 90px */
+    padding: 10px 16px; 
     border-bottom:1px solid var(--line);
     font-family:'JetBrains Mono',monospace;
     font-size: clamp(12px, 1.2vw, 16px); 
@@ -72,15 +72,14 @@
   }
   
   /* ==========================================
-     CSS CHO LOGO BẢO TÍN THANH THỦY (90PX)
+     CSS CHO LOGO BẢO TÍN THANH THỦY (CO GIÃN TỰ NHIÊN)
      ========================================== */
   .brand-logo {
-    height: 90px; /* Đã tăng lên 90px theo yêu cầu */
+    height: clamp(35px, 5vh, 60px); /* Bỏ ép cứng 90px, thay bằng co giãn mượt mà */
     width: auto;
     object-fit: contain;
-    margin-right: 14px;
+    margin-right: 12px;
     border-radius: 4px;
-    flex-shrink: 0; 
   }
 
   .chart-header .dot{
@@ -110,15 +109,17 @@
     border-radius: 8px;
   }
 
+  /* ĐỊNH DẠNG RIÊNG CHO Ô BẠC PHÚ QUÝ ĐẦU TIÊN */
   .ticker:first-child {
     flex: 1.2; 
   }
   
+  /* CỠ CHỮ CO GIÃN TỰ NHIÊN (Bỏ ép cứng 38px) */
   .ticker:first-child .price-val {
-    font-size: 38px !important;
+    font-size: clamp(28px, 4vw, 42px); 
   }
   .ticker:first-child .price-label {
-    font-size: 14px !important; 
+    font-size: clamp(10px, 1.2vw, 14px);
     margin-bottom: 6px;
   }
 
@@ -225,7 +226,7 @@
 
   .price-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(16px, 3vmin, 26px); 
+    font-size: clamp(18px, 3.5vmin, 28px); 
     font-weight: 700;
     transition: color 0.3s ease;
   }
@@ -243,21 +244,45 @@
   }
 
   /* ==========================================
-     RESPONSIVE
+     ĐÃ SỬA LỖI RESPONSIVE MOBILE (GIỐNG ẢNH 2)
      ========================================== */
-  @media (max-width: 768px) and (orientation: portrait){
-    body{ padding:6px; height:auto; overflow-y:auto; } 
-    .wrap{ grid-template-columns: 1fr; gap:6px; height:auto; }
-    .chart-panel{ height: 50dvh; min-height: 300px; }
-    .right-col{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; height: auto;}
-    .ticker{ height: 110px; }
-    .ticker:first-child { grid-column: 1 / -1; height: auto; min-height: 140px; }
+  @media (max-width: 850px) {
+    body { 
+      padding: 6px; 
+      height: auto; 
+      overflow-y: auto; /* Cho phép cuộn */
+    } 
+    .wrap { 
+      grid-template-columns: 1fr; /* Ép biểu đồ và các ô giá xếp dọc */
+      gap: 8px; 
+      height: auto; 
+    }
+    .chart-panel { 
+      height: 45vh; /* Biểu đồ nằm trên cùng */
+      min-height: 350px; 
+    }
+    .right-col { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; /* Chia 2 cột cho các ô widget */
+      gap: 6px; 
+      height: auto;
+    }
+    .ticker { 
+      min-height: 110px; 
+    }
+    .ticker:first-child { 
+      grid-column: 1 / -1; /* Ép ô Bạc Phú Quý tràn toàn bộ chiều ngang */
+      min-height: 130px; 
+    }
     
     .chart-header { padding: 8px 12px; }
-    .brand-logo { height: 55px; } 
+    .brand-logo { height: 40px; } 
   }
 
-  @media (max-height: 650px) and (orientation: landscape) {
+  /* ==========================================
+     TỐI ƯU CHO MÀN HÌNH ANDROID Ô TÔ
+     ========================================== */
+  @media (max-height: 650px) and (min-width: 851px) and (orientation: landscape) {
     body { padding: 4px; overflow: hidden; } 
     .wrap { gap: 4px; grid-template-columns: minmax(0, 1fr) clamp(220px, 25vw, 300px); }
     .right-col { gap: 4px; }
@@ -267,8 +292,7 @@
     .vn-title { font-size: 9px !important; }
     
     .chart-header { padding: 6px 12px; }
-    .brand-logo { height: 40px; } 
-    .ticker:first-child .price-val { font-size: 26px !important; } 
+    .brand-logo { height: 32px; } 
     
     .price-label { font-size: 7px !important; margin-bottom: 0; }
     .live-tag { font-size: 7px; padding: 2px 4px; }
@@ -276,10 +300,12 @@
     .source-badge { display: none; } 
   }
 
+  /* ==========================================
+     PHÓNG TO CHO MÀN TIVI 4K
+     ========================================== */
   @media (min-width: 2160px) {
     html { zoom: 1.5; }
-    .brand-logo { height: 120px; } 
-    .ticker:first-child .price-val { font-size: 48px !important; } 
+    .brand-logo { height: 90px; } 
   }
 </style>
 <script>
@@ -295,6 +321,7 @@
 
 <div class="wrap">
 
+  <!-- CỘT TRÁI: BIỂU ĐỒ -->
   <div class="panel chart-panel">
     <div class="chart-header">
       <img src="logo.png" alt="Logo Bảo Tín Thanh Thủy" class="brand-logo">
@@ -303,7 +330,10 @@
     <div id="tv_chart"></div>
   </div>
 
+  <!-- CỘT PHẢI: CÁC WIDGET GIÁ -->
   <div class="right-col">
+
+    <!-- 1. BẠC VN (PHÚ QUÝ) -->
     <div class="ticker">
       <div class="vn-silver-card">
         <div class="vn-title">
@@ -324,6 +354,7 @@
       </div>
     </div>
 
+    <!-- 2. BẠC QUỐC TẾ XAGUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
       <div class="widget-box">
@@ -339,6 +370,7 @@
       </div>
     </div>
 
+    <!-- 3. VÀNG QUỐC TẾ XAUUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
       <div class="widget-box">
@@ -354,6 +386,7 @@
       </div>
     </div>
 
+    <!-- 4. DẦU THÔ UKOIL -->
     <div class="ticker">
       <div class="source-badge">Nguồn: TVC</div>
       <div class="widget-box">
@@ -369,6 +402,7 @@
       </div>
     </div>
 
+    <!-- 5. CHỈ SỐ DXY -->
     <div class="ticker">
       <div class="source-badge">Nguồn: CAPITALCOM</div>
       <div class="widget-box">
@@ -390,6 +424,7 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
+  // KHỞI TẠO BIỂU ĐỒ TRADINGVIEW
   new TradingView.widget({
     "container_id": "tv_chart",
     "autosize": true,
