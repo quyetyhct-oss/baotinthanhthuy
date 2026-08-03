@@ -496,7 +496,9 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    element.innerText = newVal.toFixed(3).replace('.', ',');
+    let exactVal = Math.trunc(newVal * 1000) / 1000;
+    element.innerText = exactVal.toFixed(3).replace('.', ',');
+    
     if (oldVal > 0) {
       if (newVal > oldVal) {
         element.classList.add('flash-up');
