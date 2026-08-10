@@ -14,7 +14,8 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;700&display=swap');
 
-  :root{
+  /* === GIAO DIỆN MẶC ĐỊNH (TỐI) === */
+  :root {
     --bg: #000000;
     --panel: #000000;
     --line: #232a30;
@@ -23,6 +24,23 @@
     --up: #00c853;
     --down: #ff3d00;
   }
+
+  /* === GIAO DIỆN SÁNG === */
+  body.light-mode {
+    --bg: #f1f5f9;
+    --panel: #ffffff;
+    --line: #e2e8f0;
+    --silver: #475569;
+    --text: #0f172a;
+    --up: #059669; 
+    --down: #dc2626; 
+  }
+
+  /* Tự động nhuộm đen logo ở giao diện sáng */
+  body.light-mode .brand-logo {
+    filter: brightness(0);
+  }
+
   *{box-sizing:border-box; margin:0; padding:0;}
 
   html, body {
@@ -37,6 +55,7 @@
     padding: clamp(8px, 1.5vh, 16px);
     height: 100dvh; 
     overflow: hidden; 
+    transition: background-color 0.2s, color 0.2s;
   }
   
   /* GIAO DIỆN MÁY TÍNH (GRID 2 CỘT) */
@@ -53,6 +72,7 @@
     border:1px solid var(--line);
     border-radius:8px;
     overflow:hidden;
+    transition: background-color 0.2s, border-color 0.2s;
   }
   
   .chart-panel{
@@ -73,9 +93,9 @@
     flex-shrink:0;
   }
   
-  /* CSS CHO LOGO (TỰ NHIÊN, CÂN ĐỐI) */
+  /* CSS CHO LOGO */
   .brand-logo {
-    height: 55px; /* Kích thước cân đối, không ép 90px nữa */
+    height: 55px;
     width: auto;
     object-fit: contain;
     margin-right: 12px;
@@ -89,6 +109,26 @@
     border-radius:50%;
     background:var(--silver);
   }
+
+  /* NÚT ĐỔI GIAO DIỆN (SÁNG / TỐI) - ĐẶT TRONG HEADER */
+  .theme-toggle-btn {
+    margin-left: auto; /* Đẩy nút sát lề phải */
+    background-color: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .theme-toggle-btn:active {
+    transform: scale(0.95);
+  }
+
   #tv_chart{ flex:1; min-height:0; width:100%; }
 
   .right-col{
@@ -108,14 +148,13 @@
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 8px;
+    transition: background-color 0.2s, border-color 0.2s;
   }
 
-  /* Ô BẠC PHÚ QUÝ ĐẦU TIÊN */
   .ticker:first-child {
     flex: 1.2; 
   }
   
-  /* CỠ CHỮ BẠC PHÚ QUÝ ĐƯỢC GIỮ NGUYÊN (LỚN RÕ RÀNG) */
   .ticker:first-child .price-val {
     font-size: 38px !important; 
   }
@@ -245,7 +284,7 @@
   }
 
   /* ==========================================
-     SỬA LỖI RESPONSIVE CHO ĐIỆN THOẠI (ÉP XẾP CHỒNG 100%)
+     SỬA LỖI RESPONSIVE CHO ĐIỆN THOẠI
      ========================================== */
   @media (max-width: 850px) {
     body { 
@@ -256,7 +295,6 @@
       max-width: 100vw;
     } 
     .wrap { 
-      /* CHUYỂN SANG FLEX COLUMN ĐỂ CHẮC CHẮN BIỂU ĐỒ NẰM TRÊN, GIÁ NẰM DƯỚI */
       display: flex !important;
       flex-direction: column; 
       gap: 8px; 
@@ -270,7 +308,7 @@
     .right-col { 
       width: 100%;
       display: grid; 
-      grid-template-columns: 1fr 1fr; /* Chia 2 ô nhỏ bên dưới */
+      grid-template-columns: 1fr 1fr; 
       gap: 6px; 
       height: auto;
     }
@@ -278,12 +316,15 @@
       min-height: 110px; 
     }
     .ticker:first-child { 
-      grid-column: 1 / -1; /* Ép ô Bạc Phú Quý chiếm trọn 2 cột ngang */
+      grid-column: 1 / -1; 
       min-height: 130px; 
     }
-    
     .chart-header { padding: 8px 12px; }
-    .brand-logo { height: 40px; } /* Cỡ logo vừa vặn trên điện thoại */
+    .brand-logo { height: 40px; } 
+    .theme-toggle-btn {
+      font-size: 11px;
+      padding: 4px 8px;
+    }
   }
 
   /* ==========================================
@@ -297,22 +338,17 @@
     .vn-silver-card { padding: 4px 6px; gap: 0; justify-content: space-evenly; }
     .vn-price-grid { margin: 2px 0; gap: 4px; }
     .vn-title { font-size: 9px !important; }
-    
     .chart-header { padding: 6px 12px; }
     .brand-logo { height: 35px; } 
-    
     .ticker:first-child .price-val { font-size: 26px !important; }
     .ticker:first-child .price-label { font-size: 9px !important; margin-bottom: 2px; }
-
     .price-label { font-size: 7px !important; margin-bottom: 0; }
     .live-tag { font-size: 7px; padding: 2px 4px; }
     .vn-footer { font-size: 7px !important; }
     .source-badge { display: none; } 
+    .theme-toggle-btn { font-size: 10px; padding: 4px 6px; }
   }
 
-  /* ==========================================
-     PHÓNG TO CHO MÀN TIVI 4K
-     ========================================== */
   @media (min-width: 2160px) {
     html { zoom: 1.5; }
     .brand-logo { height: 75px; } 
@@ -335,6 +371,9 @@
     <div class="chart-header">
       <img src="logo.png" alt="Logo Bảo Tín Thanh Thủy" class="brand-logo">
       <span class="dot"></span> Bạc / Đô la Mỹ (XAG/USD) · OANDA
+      
+      <!-- NÚT CHUYỂN ĐỔI SÁNG TỐI NẰM TẠI ĐÂY -->
+      <button id="theme-toggle" class="theme-toggle-btn">☀️ Sáng / Tối</button>
     </div>
     <div id="tv_chart"></div>
   </div>
@@ -365,65 +404,25 @@
     <!-- 2. BẠC QUỐC TẾ XAGUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "OANDA:XAGUSD",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-xagusd"></div>
     </div>
 
     <!-- 3. VÀNG QUỐC TẾ XAUUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "OANDA:XAUUSD",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-xauusd"></div>
     </div>
 
     <!-- 4. DẦU THÔ UKOIL -->
     <div class="ticker">
       <div class="source-badge">Nguồn: TVC</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "TVC:UKOIL",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-ukoil"></div>
     </div>
 
     <!-- 5. CHỈ SỐ DXY -->
     <div class="ticker">
       <div class="source-badge">Nguồn: CAPITALCOM</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "CAPITALCOM:DXY",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-dxy"></div>
     </div>
 
   </div>
@@ -432,26 +431,70 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
+  // === LƯU VÀ XỬ LÝ TRẠNG THÁI GIAO DIỆN SÁNG TỐI ===
+  const themeBtn = document.getElementById('theme-toggle');
+  let currentTheme = localStorage.getItem('theme') || 'dark';
+
+  if (currentTheme === 'light') {
+    document.body.classList.add('light-mode');
+    themeBtn.innerText = '🌙 Chế độ Tối';
+  } else {
+    themeBtn.innerText = '☀️ Chế độ Sáng';
+  }
+
+  // Khi bấm nút đổi màu: Lưu bộ nhớ và tải lại nhanh trang để áp màu vào TradingView
+  themeBtn.addEventListener('click', () => {
+    if (document.body.classList.contains('light-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+    location.reload();
+  });
+
+  // === CẤU HÌNH BIỂU ĐỒ TRADINGVIEW LỚN ===
   new TradingView.widget({
     "container_id": "tv_chart",
     "autosize": true,
     "symbol": "OANDA:XAGUSD",
     "interval": "1",
     "timezone": "Asia/Ho_Chi_Minh",
-    "theme": "dark",
+    "theme": currentTheme,
     "style": "1",
     "locale": "vi_VN",
-    "toolbar_bg": "#000000",
+    "toolbar_bg": currentTheme === 'light' ? "#f1f5f9" : "#000000",
     "enable_publishing": false,
     "hide_top_toolbar": false,
     "hide_legend": false,
     "save_image": false,
-    "backgroundColor": "#000000",
-    "gridColor": "rgba(255,255,255,0.06)",
+    "backgroundColor": currentTheme === 'light' ? "#ffffff" : "#000000",
+    "gridColor": currentTheme === 'light' ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)",
     "enabled_features": ["left_toolbar"],
     "studies": [] 
   });
 
+  // === CẤU HÌNH NHÚNG CÁC WIDGET NHỎ THEO MÀU ===
+  function loadWidget(symbol, containerId) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "symbol": symbol,
+      "width": "100%",
+      "colorTheme": currentTheme,
+      "isTransparent": true,
+      "locale": "vi_VN"
+    });
+    document.getElementById(containerId).appendChild(script);
+  }
+
+  loadWidget("OANDA:XAGUSD", "widget-xagusd");
+  loadWidget("OANDA:XAUUSD", "widget-xauusd");
+  loadWidget("TVC:UKOIL", "widget-ukoil");
+  loadWidget("CAPITALCOM:DXY", "widget-dxy");
+
+  // === XỬ LÝ LẤY GIÁ API & CẬP NHẬT THỜI GIAN ĐẦY ĐỦ ===
   const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
   let lastBuy = 0;
   let lastSell = 0;
@@ -487,8 +530,14 @@
     lastBuy = buyVal;
     lastSell = sellVal;
 
+    // Cập nhật định dạng Ngày Tháng Năm + Giờ Phút Giây
     const now = new Date();
-    timeEl.innerText = 'Cập nhật: ' + now.toLocaleTimeString('vi-VN');
+    const timeString = now.toLocaleTimeString('vi-VN');
+    const dateString = String(now.getDate()).padStart(2, '0') + '/' + 
+                       String(now.getMonth() + 1).padStart(2, '0') + '/' + 
+                       now.getFullYear();
+    
+    timeEl.innerText = 'Cập nhật: ' + timeString + ' - ' + dateString;
   }
 
   function showErrorState(msg) {
