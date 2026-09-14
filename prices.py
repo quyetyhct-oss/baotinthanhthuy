@@ -16,7 +16,30 @@ def fetch_url(url):
         return response.read().decode('utf-8')
 
 def parse_phu_quy_silver():
-    # Try giabac.vn
+    # Primary source: giabac.phuquygroup.vn
+    try:
+        html = fetch_url("https://giabac.phuquygroup.vn/")
+        match = re.search(
+            r'1KILO.*?silver-buy-price[^>]*>\s*([\d,]+)\s*<.*?silver-sell-price[^>]*>\s*([\d,]+)\s*<', 
+            html, 
+            re.DOTALL | re.IGNORECASE
+        )
+        if not match:
+            match = re.search(
+                r'col-buy-cell[^>]*>([\d,]+)<.*?col-buy-cell[^>]*>([\d,]+)<', 
+                html, 
+                re.DOTALL
+            )
+        if match:
+            buy_raw = int(match.group(1).replace(",", ""))
+            sell_raw = int(match.group(2).replace(",", ""))
+            buy = buy_raw / 1_000_000
+            sell = sell_raw / 1_000_000
+            return {"buy": buy, "sell": sell, "buyRaw": buy_raw, "sellRaw": sell_raw, "source": "giabac.phuquygroup.vn"}
+    except Exception:
+        pass
+
+    # Fallback to giabac.vn
     try:
         html = fetch_url("https://giabac.vn")
         match = re.search(
@@ -31,23 +54,8 @@ def parse_phu_quy_silver():
     except Exception:
         pass
 
-    # Fallback to giabac.phuquygroup.vn
-    try:
-        html = fetch_url("https://giabac.phuquygroup.vn")
-        match = re.search(
-            r'BẠC THỎI PH&#218; QU&#221; 999 1KILO.*?col-buy-cell[^>]*>([\d,]+)<.*?col-buy-cell[^>]*>([\d,]+)<', 
-            html, 
-            re.DOTALL
-        )
-        if match:
-            buy = float(match.group(1).replace(",", "")) / 1_000_000
-            sell = float(match.group(2).replace(",", "")) / 1_000_000
-            return {"buy": round(buy, 3), "sell": round(sell, 3), "source": "giabac.phuquygroup.vn"}
-    except Exception:
-        pass
-
     # Hard fallback
-    return {"buy": 57.093, "sell": 58.853, "source": "fallback"}
+    return {"buy": 58.427, "sell": 60.240, "source": "fallback"}
 
 def fetch_xag_usd():
     try:

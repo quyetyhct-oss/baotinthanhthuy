@@ -37,7 +37,7 @@ async function fetchPrices() {
 
         // Show Online Status in Phu Quy Card
         if (phuquyStatusEl) {
-            phuquyStatusEl.innerHTML = '<span class="pulse-dot"></span>giabac.vn';
+            phuquyStatusEl.innerHTML = '<span class="pulse-dot"></span>giabac.phuquygroup.vn';
             phuquyStatusEl.style.color = '#10b981'; // green color accent
         }
     } catch (error) {
@@ -51,7 +51,7 @@ async function fetchPrices() {
         
         // Show Offline status in Phu Quy Card
         if (phuquyStatusEl) {
-            phuquyStatusEl.innerHTML = '<span class="pulse-dot" style="background-color: #f43f5e; box-shadow: 0 0 8px #f43f5e;"></span>giabac.vn (Offline)';
+            phuquyStatusEl.innerHTML = '<span class="pulse-dot" style="background-color: #f43f5e; box-shadow: 0 0 8px #f43f5e;"></span>giabac.phuquygroup.vn (Offline)';
             phuquyStatusEl.style.color = '#f43f5e'; // red color accent
         }
     }
