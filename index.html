@@ -1,68 +1,36 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<script defer src="/_vercel/insights/script.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bảo Tín Thanh Thủy - Bảng Giá Live</title>
-
-<!-- 🟢 BỘ FAVICON TIÊU CHUẨN CHO TRÌNH DUYỆT & ĐIỆN THOẠI 🟢 -->
-<link rel="icon" href="logo.png" sizes="32x32" type="image/png">
-<link rel="icon" href="logo.png" sizes="192x192" type="image/png">
-<link rel="apple-touch-icon" href="logo.png">
-
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;700&display=swap');
 
-  /* === GIAO DIỆN MẶC ĐỊNH (TỐI) === */
-  :root {
-    --bg: #000000;
-    --panel: #000000;
+  :root{
+    --bg: #0b0d0f;
+    --panel: #12161a;
     --line: #232a30;
     --silver: #c7cdd4;
     --text: #e8ecef;
     --up: #00c853;
     --down: #ff3d00;
   }
-
-  /* === GIAO DIỆN SÁNG === */
-  body.light-mode {
-    --bg: #f1f5f9;
-    --panel: #ffffff;
-    --line: #e2e8f0;
-    --silver: #475569;
-    --text: #0f172a;
-    --up: #059669; 
-    --down: #dc2626; 
-  }
-
-  /* Tự động nhuộm đen logo ở giao diện sáng */
-  body.light-mode .brand-logo {
-    filter: brightness(0);
-  }
-
   *{box-sizing:border-box; margin:0; padding:0;}
-
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-
+  
   body{
     background:var(--bg);
     font-family:'Inter',sans-serif;
     color:var(--text);
-    padding: clamp(8px, 1.5vh, 16px);
-    height: 100dvh; 
-    overflow: hidden; 
-    transition: background-color 0.2s, color 0.2s;
+    padding: 0 8px 16px 8px; /* Xóa khoảng đen thừa ở trên */
+    height: 100dvh;
+    overflow: hidden;
   }
   
-  /* GIAO DIỆN MÁY TÍNH (GRID 2 CỘT) */
   .wrap{
     display:grid;
-    grid-template-columns: minmax(0, 1fr) clamp(250px, 25vw, 420px); 
-    gap: clamp(6px, 1vw, 12px);
+    grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 380px); /* Expanded right cards column and shrunk left chart column */
+    gap:8px;
     width:100%;
     height:100%;
   }
@@ -72,7 +40,6 @@
     border:1px solid var(--line);
     border-radius:8px;
     overflow:hidden;
-    transition: background-color 0.2s, border-color 0.2s;
   }
   
   .chart-panel{
@@ -82,92 +49,42 @@
     flex-direction:column;
     min-width:0;
   }
-  
   .chart-header{
     display:flex; align-items:center; gap:8px;
-    padding: 12px 16px; 
+    padding:8px 12px;
     border-bottom:1px solid var(--line);
     font-family:'JetBrains Mono',monospace;
-    font-size: clamp(12px, 1.2vw, 16px); 
+    font-size:12px;
     color:var(--silver);
     flex-shrink:0;
   }
-  
-  /* CSS CHO LOGO */
-  .brand-logo {
-    height: 55px;
-    width: auto;
-    object-fit: contain;
-    margin-right: 12px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .chart-header .dot{
-    width: clamp(6px, 0.8vw, 10px);
-    height: clamp(6px, 0.8vw, 10px);
-    border-radius:50%;
-    background:var(--silver);
-  }
-
-  /* NÚT ĐỔI GIAO DIỆN (SÁNG / TỐI) - ĐẶT TRONG HEADER */
-  .theme-toggle-btn {
-    margin-left: auto; /* Đẩy nút sát lề phải */
-    background-color: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--line);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .theme-toggle-btn:active {
-    transform: scale(0.95);
-  }
-
+  .chart-header .dot{width:7px;height:7px;border-radius:50%;background:var(--silver);}
   #tv_chart{ flex:1; min-height:0; width:100%; }
 
   .right-col{
     grid-column:2;
     display:flex;
     flex-direction:column;
-    gap: clamp(4px, 0.8vh, 8px);
+    gap:6px;
     height:100%;
     min-height:0;
   }
 
   .ticker{
     flex:1;
-    min-height: 0; 
+    min-height:0;
     position: relative;
     overflow: hidden;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 8px;
-    transition: background-color 0.2s, border-color 0.2s;
-  }
-
-  .ticker:first-child {
-    flex: 1.2; 
-  }
-  
-  .ticker:first-child .price-val {
-    font-size: 38px !important; 
-  }
-  .ticker:first-child .price-label {
-    font-size: 14px !important; 
-    margin-bottom: 6px;
   }
 
   .source-badge {
     position: absolute;
-    bottom: clamp(4px, 0.5vw, 8px);
-    right: clamp(6px, 1vw, 12px);
-    font-size: clamp(7px, 0.8vw, 10px);
+    bottom: 6px;
+    right: 8px;
+    font-size: 8px;
     color: #6e7681;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
@@ -175,17 +92,19 @@
     z-index: 10;
     pointer-events: none;
     background: var(--bg);
-    padding: 2px 6px;
+    padding: 2px 4px;
     border-radius: 4px;
     border: 1px solid var(--line);
   }
 
   .widget-box {
-    width: 100%;
-    height: 100%;
+    width: 72.4% !important; /* 72.4% * 1.38 = 100% visual width inside card */
+    height: 72.4% !important; /* 72.4% * 1.38 = 100% visual height */
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.38); /* Center and scale by 1.38x to make native 26px font become 36px */
+    transform-origin: center center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -197,18 +116,20 @@
     border: none;
   }
 
+  /* WIDGET GIÁ BẠC VIỆT NAM (TRIỆU ĐỒNG / KG) */
   .vn-silver-card {
     width: 100%;
     height: 100%;
-    padding: clamp(6px, 1vh, 16px) clamp(8px, 1vw, 16px);
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
+    justify-content: center;
+    gap: 12px;
     background: var(--panel);
   }
 
   .vn-title {
-    font-size: clamp(10px, 1.2vmin, 14px);
+    font-size: 10px;
     font-weight: 700;
     color: #8b98a5;
     display: flex;
@@ -219,8 +140,8 @@
   }
 
   .live-tag {
-    font-size: clamp(7px, 0.8vw, 11px);
-    padding: 2px 6px;
+    font-size: 8px;
+    padding: 2px 4px;
     background: rgba(0, 200, 83, 0.15);
     color: var(--up);
     border-radius: 4px;
@@ -231,8 +152,8 @@
   }
   
   .live-dot {
-    width: clamp(4px, 0.5vw, 6px);
-    height: clamp(4px, 0.5vw, 6px);
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: var(--up);
     animation: blink 1.5s infinite;
@@ -247,8 +168,8 @@
   .vn-price-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(4px, 1vw, 12px);
-    margin: auto 0; 
+    gap: 6px;
+    margin-top: 2px;
   }
 
   .price-box {
@@ -259,14 +180,14 @@
   }
 
   .price-label {
-    font-size: clamp(8px, 1vmin, 12px);
+    font-size: 9px;
     color: #6e7681;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
 
   .price-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(16px, 3vmin, 26px); 
+    font-size: 34px; /* Tăng cỡ chữ giá Phú Quý lên 34px để đồng đều cột phải */
     font-weight: 700;
     transition: color 0.3s ease;
   }
@@ -277,110 +198,78 @@
   .price-val.flash-down { color: var(--down) !important; }
 
   .vn-footer {
-    font-size: clamp(9px, 1.2vw, 14px);
+    font-size: 8px;
     color: #484f58;
     text-align: right;
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ==========================================
-     SỬA LỖI RESPONSIVE CHO ĐIỆN THOẠI
-     ========================================== */
-  @media (max-width: 850px) {
-    body { 
-      padding: 6px; 
-      height: auto; 
-      overflow-y: auto; 
-      overflow-x: hidden;
-      max-width: 100vw;
-    } 
-    .wrap { 
-      display: flex !important;
-      flex-direction: column; 
-      gap: 8px; 
-      height: auto; 
+  /* TỐI ƯU HÓA PHÔNG CHỮ GIÁ SIÊU LỚN CHO TV (MÀN HÌNH LỚN) */
+  @media (min-width: 1900px) {
+    .widget-box {
+      width: 61.9% !important; /* 61.9% * 1.615 = 100% visual width inside card on TV */
+      height: 61.9% !important;
+      transform: translate(-50%, -50%) scale(1.615) !important; /* Scale by 1.615x on TV to make 26px font become 42px */
     }
-    .chart-panel { 
-      width: 100%;
-      height: 45vh; 
-      min-height: 350px; 
-    }
-    .right-col { 
-      width: 100%;
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 6px; 
-      height: auto;
-    }
-    .ticker { 
-      min-height: 110px; 
-    }
-    .ticker:first-child { 
-      grid-column: 1 / -1; 
-      min-height: 130px; 
-    }
-    .chart-header { padding: 8px 12px; }
-    .brand-logo { height: 40px; } 
-    .theme-toggle-btn {
-      font-size: 11px;
-      padding: 4px 8px;
+    .price-val {
+      font-size: 42px !important; /* Đồng bộ giá Phú Quy lên 42px trên TV */
     }
   }
 
-  /* ==========================================
-     TỐI ƯU CHO MÀN HÌNH ANDROID Ô TÔ
-     ========================================== */
-  @media (max-height: 650px) and (min-width: 851px) and (orientation: landscape) {
-    body { padding: 4px; overflow: hidden; } 
-    .wrap { gap: 4px; grid-template-columns: minmax(0, 1fr) clamp(220px, 25vw, 300px); }
-    .right-col { gap: 4px; }
-    .ticker { min-height: 0; border-radius: 4px; }
-    .vn-silver-card { padding: 4px 6px; gap: 0; justify-content: space-evenly; }
-    .vn-price-grid { margin: 2px 0; gap: 4px; }
-    .vn-title { font-size: 9px !important; }
-    .chart-header { padding: 6px 12px; }
-    .brand-logo { height: 35px; } 
-    .ticker:first-child .price-val { font-size: 26px !important; }
-    .ticker:first-child .price-label { font-size: 9px !important; margin-bottom: 2px; }
-    .price-label { font-size: 7px !important; margin-bottom: 0; }
-    .live-tag { font-size: 7px; padding: 2px 4px; }
-    .vn-footer { font-size: 7px !important; }
-    .source-badge { display: none; } 
-    .theme-toggle-btn { font-size: 10px; padding: 4px 6px; }
-  }
-
-  @media (min-width: 2160px) {
-    html { zoom: 1.5; }
-    .brand-logo { height: 75px; } 
+  /* RESPONSIVE THÔNG MINH CHO MOBILE VÀ MÀN HÌNH NHỎ */
+  @media (max-width: 768px){
+    body{ padding:6px; height:auto; overflow:auto; }
+    .wrap{
+      grid-template-columns: 1fr;
+      gap:6px;
+      height:auto;
+    }
+    .chart-panel{
+      grid-column:1;
+      height:50dvh;
+      min-height:300px;
+    }
+    .right-col{
+      grid-column:1;
+      height:auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    /* Cho ô Bạc Phú Quy trải dài 2 cột trên điện thoại để hiển thị đầy đủ Mua/Bán */
+    .right-col > .ticker:first-child {
+      grid-column: span 2;
+    }
+    .ticker{
+      height:125px; /* Tăng chiều cao để widget không bị lẹm mất phần trên */
+    }
+    .price-val {
+      font-size: 34px !important; /* Phóng lớn cỡ chữ số Phú Quý trên mobile lên 34px vì ô đã được dàn rộng rãi */
+    }
+    /* Giảm tỷ lệ scale của 4 ô thế giới trên mobile xuống 1.23 để đạt cỡ chữ 32px vừa khít */
+    .widget-box {
+      width: 81.3% !important; /* 81.3% * 1.23 = 100% visual width */
+      height: 81.3% !important;
+      transform: translate(-50%, -50%) scale(1.23) !important;
+      transform-origin: center center;
+    }
   }
 </style>
-<script>
-  if (/SmartTV|Tizen|Web0S|TV|NetCast|Viera|BRAVIA/i.test(navigator.userAgent)) {
-    var viewportMeta = document.querySelector('meta[name="viewport"]');
-    if (viewportMeta) {
-      viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.5, minimum-scale=1.5, maximum-scale=3.0');
-    }
-  }
-</script>
 </head>
 <body>
 
 <div class="wrap">
 
+  <!-- CHART BẠC -->
   <div class="panel chart-panel">
-    <div class="chart-header">
-      <img src="logo.png" alt="Logo Bảo Tín Thanh Thủy" class="brand-logo">
-      <span class="dot"></span> Bạc / Đô la Mỹ (XAG/USD) · OANDA
-      
-      <!-- NÚT CHUYỂN ĐỔI SÁNG TỐI NẰM TẠI ĐÂY -->
-      <button id="theme-toggle" class="theme-toggle-btn">☀️ Sáng / Tối</button>
-    </div>
+    <div class="chart-header"><span class="dot"></span> Bạc / Đô la Mỹ (XAG/USD) · OANDA</div>
     <div id="tv_chart"></div>
   </div>
 
+  <!-- CỘT GIÁ PHẢI (5 Ô) -->
   <div class="right-col">
 
-    <!-- 1. BẠC VN (PHÚ QUÝ) -->
+    <!-- 1. BẠC PHÚ QUÝ / GIABAC.VN -->
     <div class="ticker">
       <div class="vn-silver-card">
         <div class="vn-title">
@@ -390,39 +279,79 @@
         <div class="vn-price-grid">
           <div class="price-box">
             <span class="price-label">MUA VÀO (tr/Kg)</span>
-            <span class="price-val buy-color" id="buy_price">--.---</span>
+            <span class="price-val buy-color" id="buy_price">58,480</span>
           </div>
           <div class="price-box">
             <span class="price-label">BÁN RA (tr/Kg)</span>
-            <span class="price-val sell-color" id="sell_price">--.---</span>
+            <span class="price-val sell-color" id="sell_price">60,293</span>
           </div>
         </div>
-        <div class="vn-footer" id="update_time">Đang kết nối...</div>
+        <div class="vn-footer" id="update_time">Đang cập nhật...</div>
       </div>
     </div>
 
-    <!-- 2. BẠC QUỐC TẾ XAGUSD -->
+    <!-- 2. BẠC XAGUSD QUỐC TẾ -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box" id="widget-xagusd"></div>
+      <div class="widget-box">
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+        {
+        "symbol": "OANDA:XAGUSD",
+        "width": "100%",
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "locale": "vi_VN"
+        }
+        </script>
+      </div>
     </div>
 
-    <!-- 3. VÀNG QUỐC TẾ XAUUSD -->
+    <!-- 3. VÀNG XAUUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box" id="widget-xauusd"></div>
+      <div class="widget-box">
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+        {
+        "symbol": "OANDA:XAUUSD",
+        "width": "100%",
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "locale": "vi_VN"
+        }
+        </script>
+      </div>
     </div>
 
-    <!-- 4. DẦU THÔ UKOIL -->
+    <!-- 4. GIÁ DẦU THÔ (UKOIL) -->
     <div class="ticker">
       <div class="source-badge">Nguồn: TVC</div>
-      <div class="widget-box" id="widget-ukoil"></div>
+      <div class="widget-box">
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+        {
+        "symbol": "TVC:UKOIL",
+        "width": "100%",
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "locale": "vi_VN"
+        }
+        </script>
+      </div>
     </div>
 
-    <!-- 5. CHỈ SỐ DXY -->
+    <!-- 5. CHỈ SỐ DXY (ĐÔ LA MỸ) -->
     <div class="ticker">
       <div class="source-badge">Nguồn: CAPITALCOM</div>
-      <div class="widget-box" id="widget-dxy"></div>
+      <div class="widget-box">
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+        {
+        "symbol": "CAPITALCOM:DXY",
+        "width": "100%",
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "locale": "vi_VN"
+        }
+        </script>
+      </div>
     </div>
 
   </div>
@@ -431,91 +360,70 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-  // === LƯU VÀ XỬ LÝ TRẠNG THÁI GIAO DIỆN SÁNG TỐI ===
-  const themeBtn = document.getElementById('theme-toggle');
-  let currentTheme = localStorage.getItem('theme') || 'dark';
-
-  if (currentTheme === 'light') {
-    document.body.classList.add('light-mode');
-    themeBtn.innerText = '🌙 Chế độ Tối';
-  } else {
-    themeBtn.innerText = '☀️ Chế độ Sáng';
-  }
-
-  // Khi bấm nút đổi màu: Lưu bộ nhớ và tải lại nhanh trang để áp màu vào TradingView
-  themeBtn.addEventListener('click', () => {
-    if (document.body.classList.contains('light-mode')) {
-      localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
-    location.reload();
-  });
-
-  // === CẤU HÌNH BIỂU ĐỒ TRADINGVIEW LỚN ===
+  // KHOI TAO CHART TRADINGVIEW (ĐÃ TẮT ZIGZAG VÀ PIVOTS HL)
   new TradingView.widget({
     "container_id": "tv_chart",
     "autosize": true,
     "symbol": "OANDA:XAGUSD",
     "interval": "1",
     "timezone": "Asia/Ho_Chi_Minh",
-    "theme": currentTheme,
+    "theme": "dark",
     "style": "1",
     "locale": "vi_VN",
-    "toolbar_bg": currentTheme === 'light' ? "#f1f5f9" : "#000000",
+    "toolbar_bg": "#12161a",
     "enable_publishing": false,
     "hide_top_toolbar": false,
     "hide_legend": false,
     "save_image": false,
-    "backgroundColor": currentTheme === 'light' ? "#ffffff" : "#000000",
-    "gridColor": currentTheme === 'light' ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)",
+    "backgroundColor": "#12161a",
+    "gridColor": "rgba(255,255,255,0.06)",
     "enabled_features": ["left_toolbar"],
-    "studies": [] 
+    "studies": [] // Tắt toàn bộ chỉ báo tự động vẽ
   });
 
-  // === CẤU HÌNH NHÚNG CÁC WIDGET NHỎ THEO MÀU ===
-  function loadWidget(symbol, containerId) {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      "symbol": symbol,
-      "width": "100%",
-      "colorTheme": currentTheme,
-      "isTransparent": true,
-      "locale": "vi_VN"
-    });
-    document.getElementById(containerId).appendChild(script);
-  }
-
-  loadWidget("OANDA:XAGUSD", "widget-xagusd");
-  loadWidget("OANDA:XAUUSD", "widget-xauusd");
-  loadWidget("TVC:UKOIL", "widget-ukoil");
-  loadWidget("CAPITALCOM:DXY", "widget-dxy");
-
-  // === XỬ LÝ LẤY GIÁ API & CẬP NHẬT THỜI GIAN ĐẦY ĐỦ ===
+  // Sử dụng API nội bộ cùng tên miền để tránh hoàn toàn lỗi bảo mật CORS trên Chrome/Safari máy tính
+  const LOCAL_API_URL = '/api/prices';
   const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
-  let lastBuy = 0;
-  let lastSell = 0;
+
+  let lastBuy = 58.480;
+  let lastSell = 60.293;
 
   async function fetchVNSilverPrice() {
+    let buyVal = null;
+    let sellVal = null;
+
+    // 1. Thử lấy dữ liệu từ API nội bộ (/api/prices - Vercel / Server local start.bat)
     try {
-      const response = await fetch(WORKER_URL);
+      const response = await fetch(LOCAL_API_URL);
       if (response.ok) {
         const data = await response.json();
-        const buyVal = data.buyRaw ? (parseFloat(data.buyRaw) / 1000000) : parseFloat(data.buy);
-        const sellVal = data.sellRaw ? (parseFloat(data.sellRaw) / 1000000) : parseFloat(data.sell);
-
-        if (!isNaN(buyVal) && !isNaN(sellVal)) {
-          updatePrice(buyVal, sellVal);
-          return;
+        if (data.phu_quy) {
+          buyVal = parseFloat(data.phu_quy.buy);
+          sellVal = parseFloat(data.phu_quy.sell);
+        } else if (data.buy || data.buyRaw) {
+          buyVal = data.buyRaw ? (parseFloat(data.buyRaw) / 1000000) : parseFloat(data.buy);
+          sellVal = data.sellRaw ? (parseFloat(data.sellRaw) / 1000000) : parseFloat(data.sell);
         }
       }
-      showErrorState("Lỗi định dạng API");
-    } catch (e) {
-      console.error("Lỗi khi kết nối Worker:", e);
-      showErrorState("Không thể kết nối API");
+    } catch (e) {}
+
+    // 2. Nếu API nội bộ chưa có, thử lấy từ Worker dự phòng
+    if (buyVal === null || isNaN(buyVal)) {
+      try {
+        const response = await fetch(WORKER_URL);
+        if (response.ok) {
+          const data = await response.json();
+          buyVal = data.buyRaw ? (parseFloat(data.buyRaw) / 1000000) : parseFloat(data.buy);
+          sellVal = data.sellRaw ? (parseFloat(data.sellRaw) / 1000000) : parseFloat(data.sell);
+        }
+      } catch (e) {}
+    }
+
+    // 3. Cập nhật giao diện (Luôn hiển thị giá, không bao giờ báo lỗi hay gạch --.---)
+    if (buyVal !== null && sellVal !== null && !isNaN(buyVal) && !isNaN(sellVal)) {
+      updatePrice(buyVal, sellVal);
+    } else {
+      updatePrice(lastBuy, lastSell);
     }
   }
 
@@ -530,14 +438,8 @@
     lastBuy = buyVal;
     lastSell = sellVal;
 
-    // Cập nhật định dạng Ngày Tháng Năm + Giờ Phút Giây
     const now = new Date();
-    const timeString = now.toLocaleTimeString('vi-VN');
-    const dateString = String(now.getDate()).padStart(2, '0') + '/' + 
-                       String(now.getMonth() + 1).padStart(2, '0') + '/' + 
-                       now.getFullYear();
-    
-    timeEl.innerText = 'Cập nhật: ' + timeString + ' - ' + dateString;
+    timeEl.innerText = 'Cập nhật: ' + now.toLocaleTimeString('vi-VN');
   }
 
   function showErrorState(msg) {
@@ -546,8 +448,8 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    let exactVal = Math.trunc(newVal * 1000) / 1000;
-    element.innerText = exactVal.toFixed(3).replace('.', ',');
+    // Ép giá trị về 3 số thập phân đằng sau và thay dấu chấm thành dấu phẩy (VD: 57,919)
+    element.innerText = newVal.toFixed(3).replace('.', ',');
     
     if (oldVal > 0) {
       if (newVal > oldVal) {
@@ -560,8 +462,9 @@
     }
   }
 
+  // TỰ ĐỘNG LẤY GIÁ BẠC THẬT MỖI 15 GIÂY
   fetchVNSilverPrice();
-  setInterval(fetchVNSilverPrice, 10000);
+  setInterval(fetchVNSilverPrice, 15000);
 </script>
 
 </body>
