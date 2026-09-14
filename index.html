@@ -20,14 +20,20 @@
 
   /* === GIAO DIỆN SÁNG MÀU === */
   body.light-mode {
-    --bg: #f8fafc;
+    --bg: #f1f5f9;
     --panel: #ffffff;
-    --line: #e2e8f0;
+    --line: #cbd5e1;
     --silver: #475569;
     --text: #0f172a;
     --up: #059669; 
     --down: #dc2626; 
   }
+
+  body.light-mode .vn-title { color: #475569; }
+  body.light-mode .price-label { color: #64748b; }
+  body.light-mode .source-badge { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
+  body.light-mode .chart-header { color: #0f172a; }
+  body.light-mode .vn-footer { color: #64748b; }
 
   *{box-sizing:border-box; margin:0; padding:0;}
   
@@ -43,7 +49,7 @@
   
   .wrap{
     display:grid;
-    grid-template-columns: minmax(0, 1fr) clamp(340px, 28vw, 380px);
+    grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 420px);
     gap:8px;
     width:100%;
     height:100%;
@@ -159,11 +165,11 @@
   .vn-silver-card {
     width: 100%;
     height: 100%;
-    padding: 12px;
+    padding: 8px 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 12px;
+    gap: 8px;
     background: var(--panel);
   }
 
@@ -229,6 +235,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 32px !important;
     font-weight: 700;
+    white-space: nowrap;
     transition: color 0.3s ease;
   }
   .buy-color { color: var(--down); }
@@ -324,7 +331,7 @@
           </div>
           <div class="price-box">
             <span class="price-label">BÁN RA (tr/Kg)</span>
-            <span class="price-val sell-color" id="sell_price">60,027</span>
+            <span class="price-val sell-color" id="sell_price">60,026</span>
           </div>
         </div>
         <div class="vn-footer" id="update_time">Đang cập nhật...</div>
@@ -334,65 +341,25 @@
     <!-- 2. BẠC XAGUSD QUỐC TẾ -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "OANDA:XAGUSD",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-xagusd"></div>
     </div>
 
     <!-- 3. VÀNG XAUUSD -->
     <div class="ticker">
       <div class="source-badge">Nguồn: OANDA</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "OANDA:XAUUSD",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-xauusd"></div>
     </div>
 
     <!-- 4. GIÁ DẦU THÔ (UKOIL) -->
     <div class="ticker">
       <div class="source-badge">Nguồn: TVC</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "TVC:UKOIL",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-ukoil"></div>
     </div>
 
     <!-- 5. CHỈ SỐ DXY (ĐÔ LA MỸ) -->
     <div class="ticker">
       <div class="source-badge">Nguồn: CAPITALCOM</div>
-      <div class="widget-box">
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {
-        "symbol": "CAPITALCOM:DXY",
-        "width": "100%",
-        "colorTheme": "dark",
-        "isTransparent": true,
-        "locale": "vi_VN"
-        }
-        </script>
-      </div>
+      <div class="widget-box" id="widget-dxy"></div>
     </div>
 
   </div>
@@ -447,6 +414,30 @@
     "enabled_features": ["left_toolbar"],
     "studies": []
   });
+
+  // CẤU HÌNH TỰ ĐỘNG THAY ĐỔI MÀU CHỮ CỦA 4 WIDGET THẾ GIỚI THEO CHẾ ĐỘ SÁNG / TỐI
+  function loadWidget(symbol, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      "symbol": symbol,
+      "width": "100%",
+      "colorTheme": currentTheme === 'light' ? 'light' : 'dark',
+      "isTransparent": true,
+      "locale": "vi_VN"
+    });
+    container.appendChild(script);
+  }
+
+  loadWidget("OANDA:XAGUSD", "widget-xagusd");
+  loadWidget("OANDA:XAUUSD", "widget-xauusd");
+  loadWidget("TVC:UKOIL", "widget-ukoil");
+  loadWidget("CAPITALCOM:DXY", "widget-dxy");
 
   const LOCAL_API_URL = '/api/prices';
   const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
@@ -514,8 +505,9 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    // Định dạng 3 số thập phân chuẩn như hình yêu cầu (VD: 58,213 và 60,027)
-    let displayStr = Number(newVal).toFixed(3).replace('.', ',');
+    // Cắt đúng 3 số thập phân đằng sau, KHÔNG làm tròn số lên/xuống (VD: 60,026517 -> 60,026)
+    let truncated = Math.trunc(Number(newVal) * 1000) / 1000;
+    let displayStr = truncated.toFixed(3).replace('.', ',');
     element.innerText = displayStr;
     
     if (oldVal > 0) {
