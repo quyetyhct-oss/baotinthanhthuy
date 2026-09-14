@@ -327,11 +327,11 @@
         <div class="vn-price-grid">
           <div class="price-box">
             <span class="price-label">MUA VÀO (tr/Kg)</span>
-            <span class="price-val buy-color" id="buy_price">58,213</span>
+            <span class="price-val buy-color" id="buy_price">58,053</span>
           </div>
           <div class="price-box">
             <span class="price-label">BÁN RA (tr/Kg)</span>
-            <span class="price-val sell-color" id="sell_price">60,026</span>
+            <span class="price-val sell-color" id="sell_price">59,839</span>
           </div>
         </div>
         <div class="vn-footer" id="update_time">Đang cập nhật...</div>
@@ -442,8 +442,8 @@
   const LOCAL_API_URL = '/api/prices';
   const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
 
-  let lastBuy = 58.213;
-  let lastSell = 60.027;
+  let lastBuy = 58.053188;
+  let lastSell = 59.839850;
 
   async function fetchVNSilverPrice() {
     let buyVal = null;
@@ -476,7 +476,7 @@
       } catch (e) {}
     }
 
-    // 3. Cập nhật giao diện (Giá 3 số thập phân chuẩn)
+    // 3. Cập nhật giao diện (Giữ nguyên toàn bộ dãy số lẻ gốc)
     if (buyVal !== null && sellVal !== null && !isNaN(buyVal) && !isNaN(sellVal)) {
       updatePrice(buyVal, sellVal);
     } else {
@@ -505,9 +505,9 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    // Cắt đúng 3 số thập phân đằng sau, KHÔNG làm tròn số lên/xuống (VD: 60,026517 -> 60,026)
-    let truncated = Math.trunc(Number(newVal) * 1000) / 1000;
-    let displayStr = truncated.toFixed(3).replace('.', ',');
+    // Hiển thị đúng 5 chữ số (đến hết hàng nghìn), cắt bỏ hàng trăm/chục/đơn vị mà không làm tròn số (VD: 58.053188 -> 58,053)
+    let thousandsVal = Math.trunc(Number(newVal) * 1000) / 1000;
+    let displayStr = thousandsVal.toFixed(3).replace('.', ',');
     element.innerText = displayStr;
     
     if (oldVal > 0) {
