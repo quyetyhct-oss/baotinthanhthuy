@@ -42,14 +42,16 @@
     font-family:'Inter',sans-serif;
     color:var(--text);
     padding: 0 8px 16px 8px;
+    height: 100vh; 
     height: 100dvh;
     overflow: hidden;
     transition: background-color 0.2s, color 0.2s;
   }
   
-  /* CẤU TRÚC GỐC CHUẨN KHÔNG BỊ LỆCH */
+  /* CẤU TRÚC GỐC CHUẨN KÈM DỰ PHÒNG CHO TIZEN OS */
   .wrap{
     display:grid;
+    grid-template-columns: 1fr 380px; 
     grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 420px);
     gap:8px;
     width:100%;
@@ -82,7 +84,6 @@
   }
   .chart-header .dot{width:7px;height:7px;border-radius:50%;background:var(--silver);}
 
-  /* NÚT LỰA CHỌN SÁNG / TỐI */
   .theme-toggle-btn {
     margin-left: auto;
     background: var(--panel);
@@ -125,6 +126,8 @@
     transition: background-color 0.2s, border-color 0.2s;
   }
 
+  /* Đã gỡ bỏ toàn bộ màn che đen (.ticker:not(:first-child)::after) để không bị lẹm giá trị */
+
   .source-badge {
     position: absolute;
     bottom: 6px;
@@ -142,7 +145,6 @@
     border: 1px solid var(--line);
   }
 
-  /* WIDGET TRADINGVIEW CHUẨN HD */
   .widget-box {
     width: 81.25% !important; 
     height: 81.25% !important;
@@ -162,7 +164,6 @@
     border: none;
   }
 
-  /* WIDGET GIÁ BẠC VIỆT NAM (TRIỆU ĐỒNG / KG) */
   .vn-silver-card {
     width: 100%;
     height: 100%;
@@ -231,7 +232,6 @@
     margin-bottom: 1px;
   }
 
-  /* GIÁ PHÚ QUÝ GỐC CHUẨN HD */
   .price-val {
     font-family: 'JetBrains Mono', monospace;
     font-size: 32px !important;
@@ -252,53 +252,48 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ==========================================
-     PHÓNG TO CỘT PHẢI CHO MÀN HÌNH LỚN (2K, 4K) MÀ KHÔNG BỊ LỆCH
-     ========================================== */
+  /* TỐI ƯU HÓA LẠI TỶ LỆ CHO SMART TV (2K, 4K) TRÁNH TRÀN KHUNG */
   @media (min-width: 1900px) {
     .wrap { grid-template-columns: minmax(0, 1fr) 23vw; } 
     .widget-box {
-      width: 66.6% !important;
-      height: 66.6% !important;
-      transform: translate(-50%, -50%) scale(1.5) !important;
+      width: 71.4% !important;
+      height: 71.4% !important;
+      transform: translate(-50%, -50%) scale(1.4) !important;
     }
-    .price-val { font-size: 40px !important; }
+    .price-val { font-size: 38px !important; }
     .vn-title { font-size: 12px !important; }
     .price-label { font-size: 11px !important; }
     .vn-footer { font-size: 10px !important; }
   }
   
   @media (min-width: 2500px) {
-    .wrap { grid-template-columns: minmax(0, 1fr) 23vw; }
+    .wrap { grid-template-columns: minmax(0, 1fr) 22vw; }
     .widget-box {
-      width: 50% !important;
-      height: 50% !important;
-      transform: translate(-50%, -50%) scale(2) !important;
+      width: 55.5% !important;
+      height: 55.5% !important;
+      transform: translate(-50%, -50%) scale(1.8) !important;
     }
-    .price-val { font-size: 50px !important; }
-    .vn-title { font-size: 16px !important; }
-    .price-label { font-size: 14px !important; }
-    .vn-footer { font-size: 12px !important; }
-    .source-badge { font-size: 10px !important; bottom: 10px; right: 12px;}
+    .price-val { font-size: 48px !important; }
+    .vn-title { font-size: 14px !important; }
+    .price-label { font-size: 13px !important; }
+    .vn-footer { font-size: 11px !important; }
+    .source-badge { font-size: 10px !important; bottom: 8px; right: 10px;}
   }
 
   @media (min-width: 3800px) { 
-    .wrap { grid-template-columns: minmax(0, 1fr) 23vw; }
+    .wrap { grid-template-columns: minmax(0, 1fr) 20vw; }
     .widget-box {
-      width: 33.3% !important;
-      height: 33.3% !important;
-      transform: translate(-50%, -50%) scale(3) !important;
+      width: 45.4% !important;
+      height: 45.4% !important;
+      transform: translate(-50%, -50%) scale(2.2) !important; 
     }
-    .price-val { font-size: 70px !important; }
-    .vn-title { font-size: 22px !important; }
-    .price-label { font-size: 18px !important; }
-    .vn-footer { font-size: 16px !important; }
-    .source-badge { font-size: 14px !important; padding: 4px 8px; }
+    .price-val { font-size: 60px !important; }
+    .vn-title { font-size: 18px !important; }
+    .price-label { font-size: 16px !important; }
+    .vn-footer { font-size: 14px !important; }
+    .source-badge { font-size: 12px !important; padding: 4px 8px; }
   }
 
-  /* ==========================================
-     RESPONSIVE CHO ĐIỆN THOẠI
-     ========================================== */
   @media (max-width: 768px){
     body{ padding:6px; height:auto; overflow:auto; }
     .wrap{
@@ -308,7 +303,7 @@
     }
     .chart-panel{
       grid-column:1;
-      height:50dvh;
+      height:50vh;
       min-height:300px;
     }
     .right-col{
@@ -403,7 +398,6 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-  // === LƯU VÀ XỬ LÝ TRẠNG THÁI GIAO DIỆN SÁNG / TỐI ===
   const themeBtn = document.getElementById('theme-toggle');
   let currentTheme = localStorage.getItem('theme') || 'dark';
 
@@ -429,7 +423,6 @@
     });
   }
 
-  // KHỞI TẠO CHART TRADINGVIEW
   new TradingView.widget({
     "container_id": "tv_chart",
     "autosize": true,
@@ -450,7 +443,6 @@
     "studies": []
   });
 
-  // CẤU HÌNH NHÚNG 4 WIDGET THẾ GIỚI
   function loadWidget(symbol, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -474,7 +466,6 @@
   loadWidget("TVC:UKOIL", "widget-ukoil");
   loadWidget("CAPITALCOM:DXY", "widget-dxy");
 
-  // === THUẬT TOÁN LẤY GIÁ BẠC PHÚ QUÝ GỐC DO BẠN CUNG CẤP ===
   const LOCAL_API_URL = '/api/prices';
   const WORKER_URL = 'https://giabac.quyetyhct.workers.dev/gia-bac';
 
@@ -485,7 +476,6 @@
     let buyVal = null;
     let sellVal = null;
 
-    // 1. Thử lấy dữ liệu từ API nội bộ (/api/prices)
     try {
       const response = await fetch(LOCAL_API_URL);
       if (response.ok) {
@@ -500,7 +490,6 @@
       }
     } catch (e) {}
 
-    // 2. Nếu API nội bộ chưa có, thử lấy từ Worker dự phòng
     if (buyVal === null || isNaN(buyVal)) {
       try {
         const response = await fetch(WORKER_URL);
@@ -512,7 +501,6 @@
       } catch (e) {}
     }
 
-    // 3. Cập nhật giao diện (Giữ nguyên toàn bộ dãy số lẻ gốc)
     if (buyVal !== null && sellVal !== null && !isNaN(buyVal) && !isNaN(sellVal)) {
       updatePrice(buyVal, sellVal);
     } else {
@@ -541,7 +529,6 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    // Hiển thị đúng 3 chữ số thập phân, không tự động làm tròn lên (VD: 58.053188 -> 58,053)
     let thousandsVal = Math.trunc(Number(newVal) * 1000) / 1000;
     let displayStr = thousandsVal.toFixed(3).replace('.', ',');
     element.innerText = displayStr;
