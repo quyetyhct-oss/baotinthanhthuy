@@ -529,10 +529,23 @@
   }
 
   function applyPriceWithFlash(element, newVal, oldVal) {
-    let thousandsVal = Math.trunc(Number(newVal) * 1000) / 1000;
-    let displayStr = thousandsVal.toFixed(3).replace('.', ',');
-    element.innerText = displayStr;
+    // 1. Chuyển số thành chữ để xử lý, khắc phục 100% lỗi sai số của máy tính
+    let strVal = String(newVal);
     
+    // 2. Cắt đúng 3 số sau dấu chấm (không làm tròn)
+    if (strVal.includes('.')) {
+      let parts = strVal.split('.');
+      // Nếu phần lẻ dài hơn 3 số -> cắt lấy 3. Nếu ngắn hơn -> bù thêm số 0 cho đủ
+      strVal = parts[0] + '.' + parts[1].substring(0, 3).padEnd(3, '0');
+    } else {
+      // Nếu là số tròn chẵn, tự động thêm 3 số 0
+      strVal = strVal + '.000';
+    }
+
+    // 3. Đổi dấu chấm thành dấu phẩy và in ra màn hình
+    element.innerText = strVal.replace('.', ',');
+    
+    // 4. Hiệu ứng nhấp nháy xanh đỏ (giữ nguyên)
     if (oldVal > 0) {
       if (newVal > oldVal) {
         element.classList.add('flash-up');
@@ -543,6 +556,7 @@
       }
     }
   }
+  
 
   fetchVNSilverPrice();
   setInterval(fetchVNSilverPrice, 15000);
