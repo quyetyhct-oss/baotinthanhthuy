@@ -529,9 +529,21 @@
   }
 
 function applyPriceWithFlash(element, newVal, oldVal) {
-    // In thẳng giá trị gốc 100% ra màn hình, chỉ đổi dấu chấm (.) thành dấu phẩy (,)
-    element.innerText = String(newVal).replace('.', ',');
+    // 1. Chuyển số thành chuỗi để giữ nguyên bản chất
+    let numStr = newVal.toString();
+    let parts = numStr.split('.');
     
+    // 2. Lấy phần nguyên
+    let intPart = parts[0];
+    
+    // 3. Xử lý phần thập phân: Cắt đúng 3 số đầu, nếu thiếu thì tự bù số 0 cho đủ
+    let decPart = parts[1] ? parts[1].substring(0, 3) : '000';
+    decPart = decPart.padEnd(3, '0'); 
+    
+    // 4. Nối lại thành chuẩn định dạng xx,xxx
+    element.innerText = intPart + ',' + decPart;
+    
+    // 5. Hiệu ứng nhấp nháy xanh đỏ (giữ nguyên)
     if (oldVal > 0) {
       if (newVal > oldVal) {
         element.classList.add('flash-up');
